@@ -12,6 +12,7 @@ import Playground from "./pages/Playground/Playground";
 import Algorithms from "./pages/Algorithms/Algorithms";
 import PlaygroundLayout from "./layouts/PlaygroundLayout";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
+import PageNotFound from "./pages/NotFound/PageNotFound";
 
 function App() {
   const router = createBrowserRouter(
@@ -27,7 +28,7 @@ function App() {
         <Route path="/playground" element={<PlaygroundLayout />}>
           <Route index element={<Playground />} />
         </Route>
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="*" element={<PageNotFound />} />
       </Route>
     )
   );

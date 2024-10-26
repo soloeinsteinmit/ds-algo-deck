@@ -6,7 +6,7 @@ import { CgGitFork } from "react-icons/cg";
 function Logo({ className, ...props }) {
   return (
     <h1
-      className={`text-2xl font-bold flex justify-end items-end ${className}`}
+      className={`text-2xl font-bold flex justify-start items-center ${className}`}
     >
       DS.Alg
       <BsDatabase />

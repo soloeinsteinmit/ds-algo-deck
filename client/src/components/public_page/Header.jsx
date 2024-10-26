@@ -28,17 +28,22 @@ export default function Header() {
       <NavbarContent className="hidden sm:flex gap-4 " justify="center">
         <NavbarItem isActive>
           <Link color="warning" href="#">
-            Explore
+            Explore🔎
           </Link>
         </NavbarItem>
         <NavbarItem>
           <Link href="#" aria-current="page" color="foreground">
-            Resources
+            Resources📚
           </Link>
         </NavbarItem>
         <NavbarItem>
           <Link color="foreground" href="#">
-            Playground
+            Playground 🛠🛝
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link color="foreground" href="#">
+            Practice Mode🧑‍💻
           </Link>
         </NavbarItem>
       </NavbarContent>

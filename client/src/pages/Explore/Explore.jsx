@@ -2,6 +2,10 @@ import React from "react";
 import Logo from "../../components/Logo";
 import { Button } from "@nextui-org/react";
 import { HeroSection } from "../../components/public_page/HeroSection";
+import {
+  CustomButton,
+  CustomButton1,
+} from "../../components/public_page/CustomButtons";
 
 function Explore() {
   return (
@@ -17,13 +21,23 @@ function Explore() {
         {/* Content */}
         <div className="relative z-10 w-full flex flex-col gap-10 items-center justify-center h-full">
           <h1 className="text-8xl font-bold flex flex-col text-center cursor-default">
-            <span>Data Structure</span> &amp;<span> Algorithm Visualizer</span>
+            <span>
+              Master <span className="text-warning">Data Structures</span>
+            </span>{" "}
+            <span>&amp;</span>
+            <span>
+              <span className="text-warning">Algorithms</span> Visually!
+            </span>
           </h1>
           <p className="text-xl cursor-default">
-            Learn and explore data structures and algorithms through
-            visualizations
+            An interactive tool for learning and visualizing data structures and
+            algorithms in real-time.
           </p>
-          <Button color="warning">Get Started</Button>
+          <div className="flex space-x-10">
+            <CustomButton />
+            <CustomButton1 text="Learn More" />
+          </div>
+          {/* <Button color="warning">Get Started</Button> */}
         </div>
       </div>
     </div>
