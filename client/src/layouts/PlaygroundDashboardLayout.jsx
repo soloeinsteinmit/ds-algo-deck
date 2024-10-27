@@ -1,11 +1,12 @@
 import React from "react";
-import NavbarComponent from "../components/public_page/Navbar";
+
 import { Outlet } from "react-router-dom";
+import NavbarComponent from "../components/Navbar";
 
 function PlaygroundDashboardLayout() {
   const links = [
-    { label: "Home🏠", href: "#", isActive: true, color: "warning" },
-    { label: "Playground 🛠🛝", href: "#" },
+    { label: "Home🏠", href: "/dashboard", isActive: true, color: "warning" },
+    { label: "Playground 🛠🛝", href: "playground" },
     { label: "Practice Mode🧑‍💻", href: "#" },
     { label: "Resources📚", href: "#", color: "foreground" },
   ];

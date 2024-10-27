@@ -10,8 +10,10 @@ import {
   DropdownMenu,
   Avatar,
 } from "@nextui-org/react";
-import Logo from "../Logo.jsx";
-import { ThemeSwitcher } from "../ThemeSwitcher.jsx";
+
+import { ThemeSwitcher } from "./ThemeSwitcher.jsx";
+import Logo from "./Logo.jsx";
+import { NavLink } from "react-router-dom";
 
 export default function NavbarComponent({
   logoComponent = <Logo />,
@@ -43,10 +45,10 @@ export default function NavbarComponent({
 
       <NavbarContent className="hidden sm:flex gap-7 " justify="center">
         {links.map((link, index) => (
-          <NavbarItem key={index} isActive={link.isActive}>
-            <Link color={link.color || "foreground"} href={link.href}>
+          <NavbarItem key={index}>
+            <NavLink className={"active:text-warning"} to={link.href}>
               {link.label}
-            </Link>
+            </NavLink>
           </NavbarItem>
         ))}
       </NavbarContent>

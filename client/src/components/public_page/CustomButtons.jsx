@@ -6,7 +6,7 @@ export const CustomButton = ({ label = "Get Started" }) => {
   const navigate = useNavigate();
   return (
     <StyledWrapper>
-      <button className="button" onClick={() => navigate("/playground")}>
+      <button className="button" onClick={() => navigate("/dashboard")}>
         <div className="dots_border" />
         <svg
           xmlns="http://www.w3.org/2000/svg"

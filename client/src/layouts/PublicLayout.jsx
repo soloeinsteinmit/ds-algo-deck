@@ -1,5 +1,5 @@
+import NavbarComponent from "../components/Navbar";
 import Footer from "../components/public_page/Footer";
-import NavbarComponent from "../components/public_page/Navbar";
 import Explore from "../pages/Explore/Explore";
 
 function PublicLayout() {

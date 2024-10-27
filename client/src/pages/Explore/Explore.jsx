@@ -6,7 +6,6 @@ import {
   CustomButton1,
 } from "../../components/public_page/CustomButtons";
 import FeaturesCard from "../../components/public_page/FeaturesCard";
-import { Navigate } from "react-router-dom";
 
 import {
   PiCodeDuotone,
