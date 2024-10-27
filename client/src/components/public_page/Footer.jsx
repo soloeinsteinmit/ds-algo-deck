@@ -5,8 +5,8 @@ import { NavLink } from "react-router-dom";
 
 function Footer() {
   return (
-    <div className="h-fit flex justify-center items-center bg-content1 relative z-[99]">
-      <div className=" w-full h-content absolute py-20 px-20 bg-content1/95">
+    <div className="h-fit flex justify-center items-center bg-content1/95 relative z-[99]">
+      <div className=" w-full h-content py-20 px-20 ">
         <div className="flex gap-32 items-start justify-center">
           <div className="flex flex-col w-1/3 gap-4">
             <Logo className={"text-3xl"} />

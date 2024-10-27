@@ -18,6 +18,7 @@ export default function Header() {
     <Navbar
       shouldHideOnScroll
       maxWidth="full"
+      height={"100px"}
       classNames={{ base: "bg-transparent, p-0 m-0" }}
       isBlurred
     >
