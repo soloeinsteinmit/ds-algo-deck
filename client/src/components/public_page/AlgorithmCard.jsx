@@ -112,7 +112,7 @@ const AlgorithmCard = ({
       </div>
 
       <div className="mt-10 flex space-x-5  px-5 pb-10 ">
-        <div className="mb-6 w-[65%]">
+        <div className="mb-6 w-[60%]">
           <p className="font-mono text-xl font-normal tracking-wide text-secondary">
             <span className="text-default">{"// "}</span>
             <span className="text-primary">Bubble Sort Visualization</span>
@@ -132,7 +132,9 @@ const AlgorithmCard = ({
                   }`}
                 style={{ height: `${getBarHeight(value)}%` }}
               >
-                <span className="mb-1 text-xs text-center">{value}</span>
+                <span className="mb-1 text-xs text-center text-white">
+                  {value}
+                </span>
               </div>
             ))}
           </div>
@@ -141,7 +143,6 @@ const AlgorithmCard = ({
             <Button
               onClick={bubbleSort}
               className=""
-              size="sm"
               color="primary"
               isDisabled={isSorting}
             >
@@ -150,16 +151,15 @@ const AlgorithmCard = ({
             <Button
               onClick={stopSorting}
               className=""
-              size="sm"
               color="danger"
               isDisabled={!isSorting}
             >
               Stop
             </Button>
-            <Button onClick={resetArray} size="sm" isDisabled={isSorting}>
+            <Button onClick={resetArray} isDisabled={isSorting}>
               Reset
             </Button>
-            <Button onClick={randomizeArray} size="sm" isDisabled={isSorting}>
+            <Button onClick={randomizeArray} isDisabled={isSorting}>
               Randomize numbers
             </Button>
             {/* // TODO: WORK ON THE SPEED SLIDER IT IS OPPPOSITE OF WHAT IT SHOULD
@@ -170,7 +170,7 @@ const AlgorithmCard = ({
               step={0.01}
               maxValue={1}
               minValue={0}
-              defaultValue={0.5}
+              defaultValue={0.4}
               value={speed}
               onChange={(value) => setSpeed(value)}
               className="max-w-xs"
