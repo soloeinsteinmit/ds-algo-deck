@@ -27,7 +27,7 @@ const TreeNode = ({ value, x, y, children }) => (
     <circle
       cx={x}
       cy={y}
-      r="25" // MODIFIED: Increased from 16 to 20 for larger circles
+      r="20" // MODIFIED: Increased from 16 to 20 for larger circles
       fill="#8B5CF6"
       className="transition-all duration-300"
     />
@@ -126,6 +126,11 @@ const DataStructureCard = () => {
       ],
     });
   };
+  const handleOnEnter = (e) => {
+    if (e.key === "Enter") {
+      insertNode(value);
+    }
+  };
 
   return (
     <div className="relative rounded-lg bg-content2 p-2 w-[80%]">
@@ -159,36 +164,6 @@ const DataStructureCard = () => {
       </div>
 
       <div className="mt-5 flex space-y-1.5 px-5 pb-10">
-        <div className="mb-6 w-[60%]">
-          <p className="font-mono text-xl font-normal tracking-wide text-secondary ">
-            <span className="text-default-600">{"// "}</span>
-            <span className="text-primary">
-              Binary Search Tree Visualization
-            </span>
-          </p>
-
-          <div className="mt-4 flex justify-center gap-4">
-            <Input
-              type="number"
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              placeholder="Enter number"
-              className="w-36 rounded"
-              variant="faded"
-            />
-            <Button onClick={() => insertNode(value)} color="primary">
-              Insert Node
-            </Button>
-            <Button onClick={resetTree}>Reset</Button>
-          </div>
-
-          <div className="mt-4 flex justify-center ">
-            <svg width="400" height="300" className="overflow-visible">
-              {renderTree(tree)}
-            </svg>
-          </div>
-        </div>
-
         <div className="flex flex-col gap-4 w-[50%]">
           <div className="flex flex-col">
             <p className="font-mono text-xl font-normal tracking-wide text-secondary">
@@ -225,6 +200,37 @@ const DataStructureCard = () => {
               "Common operations on a BST include traversal (in-order, pre-order, post-order), searching, and insertion.",
             ]}
           />
+        </div>
+
+        <div className="mb-6 w-[60%]">
+          <p className="font-mono text-xl font-normal tracking-wide text-secondary ">
+            <span className="text-default-600">{"// "}</span>
+            <span className="text-primary">
+              Binary Search Tree Visualization
+            </span>
+          </p>
+
+          <div className="mt-4 flex justify-center gap-4">
+            <Input
+              type="number"
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              placeholder="Enter number"
+              className="w-36 rounded"
+              variant="faded"
+              onKeyDown={handleOnEnter}
+            />
+            <Button onClick={() => insertNode(value)} color="primary">
+              Insert Node
+            </Button>
+            <Button onClick={resetTree}>Reset</Button>
+          </div>
+
+          <div className="mt-4 flex justify-center ">
+            <svg width="400" height="300" className="overflow-visible">
+              {renderTree(tree)}
+            </svg>
+          </div>
         </div>
       </div>
     </div>

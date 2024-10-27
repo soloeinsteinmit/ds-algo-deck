@@ -17,6 +17,7 @@ import {
 } from "react-icons/pi";
 import AlgorithmCard from "../../components/public_page/AlgorithmCard";
 import DataStructureCard from "../../components/public_page/DataStructureCard";
+import AlgoDeckTerminal from "../../components/public_page/AlgoDeckTerminal";
 
 function Explore() {
   return (
@@ -55,6 +56,9 @@ function Explore() {
         <h2 className="text-8xl font-bold mb-10">
           Key <span className="text-warning">Features✨💡</span>{" "}
         </h2>
+        <p className="font-bold">
+          Status: 🔓 {"->"} Implemented 🔒 {"->"} In Development{" "}
+        </p>
         <div className="flex gap-5 flex-wrap items-start justify-center h-96">
           <FeaturesCard
             icon={<PiDatabaseDuotone />}
@@ -98,6 +102,13 @@ function Explore() {
         </h2>
         <AlgorithmCard />
         <DataStructureCard />
+      </div>
+
+      <div className="relative w-full flex flex-col gap-10 items-center justify-center mb-32">
+        <h2 className="text-8xl font-bold mb-10">
+          DS.AlgoDeck<span className="text-warning"> Terminal💻 </span>{" "}
+        </h2>
+        <AlgoDeckTerminal />
       </div>
     </div>
   );
