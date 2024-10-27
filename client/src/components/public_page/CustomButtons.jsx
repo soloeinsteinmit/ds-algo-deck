@@ -1,10 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export const CustomButton = ({ label = "Get Started" }) => {
+  const navigate = useNavigate();
   return (
     <StyledWrapper>
-      <button className="button">
+      <button className="button" onClick={() => navigate("/playground")}>
         <div className="dots_border" />
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -1,19 +1,20 @@
-import Footer from "../components/public_page/Footer";
+import React from "react";
 import NavbarComponent from "../components/public_page/Navbar";
-import Explore from "../pages/Explore/Explore";
+import { Outlet } from "react-router-dom";
 
-function PublicLayout() {
+function PlaygroundDashboardLayout() {
   const links = [
-    { label: "Explore🔎", href: "#", isActive: true, color: "warning" },
-    { label: "Resources📚", href: "#", color: "foreground" },
+    { label: "Home🏠", href: "#", isActive: true, color: "warning" },
     { label: "Playground 🛠🛝", href: "#" },
     { label: "Practice Mode🧑‍💻", href: "#" },
+    { label: "Resources📚", href: "#", color: "foreground" },
   ];
 
   const avatarDetails = {
     name: "Jason Hughes",
     src: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
     email: "zoey@example.com",
+    size: "md",
   };
   const dropdownItems = [
     { key: "settings", label: "My Settings" },
@@ -24,19 +25,20 @@ function PublicLayout() {
     { key: "help_and_feedback", label: "Help & Feedback" },
     { key: "logout", label: "Logout" },
   ];
-
   return (
-    <div>
+    <div className="flex flex-col">
       <NavbarComponent
-        shouldHideOnScroll={true}
         links={links}
         avatarDetails={avatarDetails}
         dropdownItems={dropdownItems}
+        isBlurred={true}
+        shouldHideOnScroll={false}
+        height="80px"
+        classNames={{ wrapper: "bg-content1" }}
       />
-      <Explore />
-      <Footer />
+      <Outlet />
     </div>
   );
 }
 
-export default PublicLayout;
+export default PlaygroundDashboardLayout;

@@ -10,7 +10,7 @@ import { Outlet } from "react-router-dom";
  *
  * @returns {JSX.Element} The MainLayout component.
  */
-function MainLayout() {
+function MainOuletLayout() {
   return (
     <>
       <Outlet />
@@ -18,4 +18,4 @@ function MainLayout() {
   );
 }
 
-export default MainLayout;
+export default MainOuletLayout;

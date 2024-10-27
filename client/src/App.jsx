@@ -6,18 +6,21 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import PublicLayout from "./layouts/PublicLayout";
-import MainLayout from "./layouts/MainLayout";
+import MainLayout from "./layouts/MainOutletLayout";
 import Explore from "./pages/Explore/Explore";
 import Playground from "./pages/Playground/Playground";
 import Algorithms from "./pages/Algorithms/Algorithms";
 import PlaygroundLayout from "./layouts/PlaygroundLayout";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import PageNotFound from "./pages/NotFound/PageNotFound";
+import MainOuletLayout from "./layouts/MainOutletLayout";
+import PlaygroundDashboardLayout from "./layouts/PlaygroundDashboardLayout";
+import PlaygroundDashboard from "./pages/Playground/PlaygroundDashboard";
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<MainLayout />}>
+      <Route path="/" element={<MainOuletLayout />}>
         {/* Public routes */}
         <Route path="/" element={<PublicLayout />}>
           <Route index element={<Explore />} />
@@ -25,8 +28,9 @@ function App() {
         </Route>
 
         {/* Dashboard routes */}
-        <Route path="/playground" element={<PlaygroundLayout />}>
-          <Route index element={<Playground />} />
+        <Route path="/playground" element={<PlaygroundDashboardLayout />}>
+          <Route index element={<PlaygroundDashboard />} />
+          {/* <Route index element={<Playground />} /> */}
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Route>

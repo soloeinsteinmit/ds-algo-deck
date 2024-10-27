@@ -6,6 +6,7 @@ import {
   CustomButton1,
 } from "../../components/public_page/CustomButtons";
 import FeaturesCard from "../../components/public_page/FeaturesCard";
+import { Navigate } from "react-router-dom";
 
 import {
   PiCodeDuotone,
@@ -14,6 +15,7 @@ import {
   PiBooksDuotone,
   PiChartLineUpDuotone,
   PiUsersFourDuotone,
+  PiBrainDuotone,
 } from "react-icons/pi";
 import AlgorithmCard from "../../components/public_page/AlgorithmCard";
 import DataStructureCard from "../../components/public_page/DataStructureCard";
@@ -44,7 +46,7 @@ function Explore() {
             algorithms in real-time.
           </p>
           <div className="flex space-x-10">
-            <CustomButton />
+            <CustomButton label="Get Started" />
             <CustomButton1 text="Learn More" />
           </div>
           {/* <Button color="warning">Get Started</Button> */}
@@ -88,11 +90,17 @@ function Explore() {
             description="Track your learning journey and monitor your progress through interactive quizzes and challenges."
           />
           <FeaturesCard
+            icon={<PiBrainDuotone />}
+            title="AI Code Generation🔒"
+            description="Leverage AI to generate code snippets, templates, and solutions, making it easier to implement and understand algorithms."
+          />
+          {/* <FeaturesCard
             icon={<PiUsersFourDuotone />}
             title="Community Support🔒"
             description="Connect with a community of learners and experts, ask questions, and share your knowledge."
-          />
+          /> */}
         </div>
+        <CustomButton label="Explore more on the Playground" />
       </div>
 
       {/* playground */}

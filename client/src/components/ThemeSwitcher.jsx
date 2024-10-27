@@ -32,8 +32,8 @@ export const ThemeSwitcher = (props) => {
   } = useSwitch({
     ...props,
     // Initialize isSelected based on current theme
-    defaultSelected: theme === "dark",
-    onChange: () => setTheme(isSelected ? "light" : "dark"),
+    defaultSelected: theme === "light",
+    onChange: () => setTheme(isSelected ? "dark" : "light"),
   });
 
   // Handle mounting
@@ -60,7 +60,7 @@ export const ThemeSwitcher = (props) => {
             ],
           })}
         >
-          {isSelected ? <MoonIcon /> : <SunIcon />}
+          {isSelected ? <SunIcon /> : <MoonIcon />}
         </div>
       </Component>
     </div>
