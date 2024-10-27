@@ -15,6 +15,8 @@ import {
   PiChartLineUpDuotone,
   PiUsersFourDuotone,
 } from "react-icons/pi";
+import AlgorithmCard from "../../components/public_page/AlgorithmCard";
+import DataStructureCard from "../../components/public_page/DataStructureCard";
 
 function Explore() {
   return (
@@ -47,6 +49,8 @@ function Explore() {
           {/* <Button color="warning">Get Started</Button> */}
         </div>
       </div>
+
+      {/* key features */}
       <div className="relative h-fit my-10 w-full flex flex-col gap-10 items-center justify-center">
         <h2 className="text-8xl font-bold mb-10">
           Key <span className="text-warning">Features✨💡</span>{" "}
@@ -85,6 +89,15 @@ function Explore() {
             description="Connect with a community of learners and experts, ask questions, and share your knowledge."
           />
         </div>
+      </div>
+
+      {/* playground */}
+      <div className="relative w-full flex flex-col gap-10 items-center justify-center mb-32">
+        <h2 className="text-8xl font-bold mb-10">
+          <span className="text-warning">Playground🛝</span>{" "}
+        </h2>
+        <AlgorithmCard />
+        <DataStructureCard />
       </div>
     </div>
   );
