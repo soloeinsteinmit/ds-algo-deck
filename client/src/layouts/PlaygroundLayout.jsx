@@ -5,7 +5,7 @@ import CodeEditor from "../components/playground/CodeEditor";
 
 function PlaygroundLayout() {
   return (
-    <div className="flex gap-2 h-[87vh] mx-5 my-5">
+    <div className="flex justify-evenly gap-2 max-h-[87vh] mx-auto w-full my-5">
       <LeftSideBar />
       <VisualizingPanel />
       <CodeEditor />

@@ -27,7 +27,7 @@ function PlaygroundDashboardLayout() {
     { key: "logout", label: "Logout" },
   ];
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col items-center justify-center">
       <NavbarComponent
         links={links}
         avatarDetails={avatarDetails}

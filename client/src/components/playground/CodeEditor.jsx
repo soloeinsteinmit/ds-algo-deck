@@ -4,7 +4,7 @@ import Console from "./Console";
 
 function CodeEditor() {
   return (
-    <div className="w-[40%] rounded-medium shadow-medium overflow-hidden">
+    <div className="w-[35%] rounded-medium shadow-medium overflow-hidden">
       <div className="flex-grow">
         <MonacoEditor />
       </div>
