@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Input } from "@nextui-org/react";
 import { Search, ChevronDown, ChevronRight } from "lucide-react";
 import { categories } from "../../utils/algorithmsData";
+import { useDispatch, useSelector } from "react-redux";
 
 const LeftSideBar = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -10,6 +11,15 @@ const LeftSideBar = () => {
     algorithms: true,
   });
   const [expandedItems, setExpandedItems] = useState({});
+  const dispatch = useDispatch();
+  const { setCurrentView, setCode } = useSelector((state) => state.visualizer);
+
+  // In LeftSideBar.tsx
+  const handleTopicClick = (topic) => {
+    useDispatch(setCurrentView(topic));
+    // You can also dispatch the corresponding code here
+    dispatch(setCode(getCodeForTopic(topic)));
+  };
 
   // Toggle category expansion
   const toggleCategory = (category) => {
@@ -118,7 +128,8 @@ const LeftSideBar = () => {
                               {itemData.topics.map((topic) => (
                                 <div
                                   key={topic.name}
-                                  className="flex items-center p-2 cursor-pointer hover:bg-content2 rounded-md transition-colors duration-200 text-sm group"
+                                  onClick={() => handleTopicClick(topic)}
+                                  className="flex items-center p-2 cursor-pointer hover:bg-content2 rounded-md transition-all duration-200 text-sm group active:scale-95"
                                 >
                                   <span className="ml-2">{topic.name}</span>
                                   {!topic.implemented && (

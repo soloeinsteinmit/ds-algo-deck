@@ -74,7 +74,7 @@ const MonacoEditor = () => {
         { token: "string", foreground: "e6db74" },
       ],
       colors: {
-        "editor.background": "hsl(var(--nextui-content1))",
+        "editor.background": "#272822",
         "editor.foreground": "#f8f8f2",
         "editorLineNumber.foreground": "#90908a",
       },
