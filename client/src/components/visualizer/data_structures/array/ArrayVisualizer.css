@@ -1,0 +1,130 @@
+.array-visualizer {
+  --animation-duration: 1000ms;
+  --element-size: 4rem;
+  --element-gap: 1rem;
+  --insert-color: rgb(34, 197, 94);
+  --delete-color: rgb(239, 68, 68);
+  --update-color: rgb(234, 179, 8);
+  --default-color: rgb(59, 130, 246);
+}
+
+.transition-wrapper-item {
+  will-change: transform;
+  transform-origin: center;
+}
+
+.array-container {
+  display: flex;
+  gap: var(--element-gap);
+  padding: 1rem;
+  min-height: calc(var(--element-size) * 2);
+  position: relative;
+  transition: all var(--animation-duration) cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Base element styles */
+.array-element-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  transform-origin: center;
+  transition: all var(--animation-duration) cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.array-element {
+  width: var(--element-size);
+  height: var(--element-size);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  background-color: var(--default-color);
+  transition: all var(--animation-duration) cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, background-color;
+  backface-visibility: hidden;
+}
+
+/* Insertion Animation */
+.array-container.is-inserting .array-element-wrapper.inserting {
+  animation: insertElement var(--animation-duration)
+    cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  z-index: 1;
+}
+
+.array-container.is-inserting .array-element-wrapper.inserting .array-element {
+  background-color: var(--insert-color);
+}
+
+/* Update Animation */
+/* .array-container.is-updating .array-element-wrapper.updating { */
+/* animation: updateElement var(--animation-duration)
+    cubic-bezier(0.4, 0, 0.2, 1); */
+/* } */
+
+.array-container.is-updating .array-element-wrapper.updating .array-element {
+  background-color: var(--update-color);
+  animation: updateElement var(--animation-duration)
+    cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Delete Animation */
+.array-container.is-deleting .array-element-wrapper.deleting {
+  animation: deleteElement var(--animation-duration)
+    cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  z-index: 1;
+}
+
+.array-container.is-deleting .array-element-wrapper.deleting .array-element {
+  background-color: var(--delete-color);
+}
+
+.array-container.is-deleting .array-element-wrapper.shifting-left {
+  transform: translateX(calc((var(--element-size) + var(--element-gap)) * -1))
+    forwards;
+  transition-delay: calc(var(--animation-duration) * 0.25);
+}
+
+@keyframes insertElement {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translateY(-50%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes updateElement {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+@keyframes deleteElement {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5) translateY(100%);
+  }
+}

@@ -16,6 +16,10 @@ const Console = ({ height = "200px" }) => {
     const originalLog = console.log;
     const originalError = console.error;
 
+    if (!originalLog || !originalError) {
+      return;
+    }
+
     console.log = (...args) => {
       setLogs((prev) => [
         ...prev,

@@ -8,7 +8,7 @@ function PlaygroundLayout() {
     <div className="flex justify-evenly gap-2 max-h-[87vh] mx-auto w-full my-5">
       <LeftSideBar />
       <VisualizingPanel />
-      <CodeEditor />
+      {/* <CodeEditor /> */}
     </div>
   );
 }

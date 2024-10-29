@@ -1,18 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-/**
- * A simple alert component that renders a centered message
- * with a CSS class of "text-danger" or "text-sucess".
- *
- * @param {string} message The message to display
- * @param {boolean} isError Whether the message is an error (true) or success (false)
- * @returns {JSX.Element} A JSX <p> element with the message and CSS class
- */
-function ControlsAlert({ message, isError }) {
+function ControlsAlert({ message, isError, isVisible, onHide }) {
+  useEffect(() => {
+    if (isVisible) {
+      const timer = setTimeout(() => {
+        onHide();
+      }, 5000); // Hide after 5 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [isVisible, onHide]);
+
   return (
-    <p className={`text-center ${isError ? "text-danger" : "text-success"}`}>
-      {message}
-    </p>
+    <AnimatePresence>
+      {isVisible && (
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className={`text-center ${isError ? "text-danger" : "text-success"}`}
+        >
+          {message}
+        </motion.p>
+      )}
+    </AnimatePresence>
   );
 }
 
