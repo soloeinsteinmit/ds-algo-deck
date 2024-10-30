@@ -1,12 +1,14 @@
-import { Button } from "@nextui-org/react";
-import Logo from "./components/Logo";
+import { RouterProvider } from "react-router-dom";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { router } from "./utils/BrowserRoutes";
 
 function App() {
   return (
-    <div className="flex flex-col gap-6 items-center justify-center h-screen w-full">
-      <Logo />
-      <Button color="primary">Get Started</Button>
-    </div>
+    <>
+      <NextThemesProvider attribute="class" defaultTheme="dark">
+        <RouterProvider router={router} />
+      </NextThemesProvider>
+    </>
   );
 }
 
