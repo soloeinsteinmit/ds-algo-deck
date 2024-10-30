@@ -1,8 +1,19 @@
+// PlaygroundDashboardLayout.jsx
 import React from "react";
-
 import { Outlet } from "react-router-dom";
 import NavbarComponent from "../components/Navbar";
 
+/**
+ * A layout component that renders a navbar with a logo and a set of links, and
+ * an outlet for the main content area.
+ *
+ * The navbar is fixed height and has a blurred background.
+ *
+ * The main content area is a flex container that fills the remaining space and
+ * has an outlet for the actual content.
+ *
+ * @returns {JSX.Element} The rendered layout component.
+ */
 function PlaygroundDashboardLayout() {
   const links = [
     { label: "Home🏠", href: "/dashboard", isActive: true, color: "warning" },
@@ -17,6 +28,7 @@ function PlaygroundDashboardLayout() {
     email: "zoey@example.com",
     size: "md",
   };
+
   const dropdownItems = [
     { key: "settings", label: "My Settings" },
     { key: "team_settings", label: "Team Settings" },
@@ -26,18 +38,27 @@ function PlaygroundDashboardLayout() {
     { key: "help_and_feedback", label: "Help & Feedback" },
     { key: "logout", label: "Logout" },
   ];
+
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="min-h-screen flex flex-col">
+      {/* Navbar - fixed height */}
+      {/* <div className="flex-none border-b-2 border-divider"> */}
       <NavbarComponent
         links={links}
         avatarDetails={avatarDetails}
         dropdownItems={dropdownItems}
         isBlurred={true}
         shouldHideOnScroll={false}
-        height="80px"
+        height="4rem"
         classNames={{ wrapper: "bg-content1" }}
+        isBordered
       />
-      <Outlet />
+      {/* </div> */}
+
+      {/* Main content area - fills remaining space */}
+      <div className="flex-1 relative">
+        <Outlet />
+      </div>
     </div>
   );
 }

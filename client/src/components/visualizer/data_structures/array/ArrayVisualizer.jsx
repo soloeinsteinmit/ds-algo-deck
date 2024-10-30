@@ -6,6 +6,69 @@ import {
 } from "../../../../features/visualizer/arrays/arrayVisualizerSlice";
 import "./ArrayVisualizer.css";
 
+/**
+ * A React component that renders an array visualizer.
+ *
+ * The component renders a horizontal list of elements, each element being a
+ * div with a CSS class of "array-element-wrapper". The component also renders
+ * a CSS class of "array-container" on the outermost div.
+ *
+ * The component takes no props.
+ *
+ * The component uses the useReducer hook to store the array state in the Redux
+ * store. The component uses the useSelector hook to access the array state from
+ * the Redux store. The component uses the useDispatch hook to dispatch actions
+ * to the Redux store.
+ *
+ * The component uses the useEffect hook to initialize the array state with the
+ * value [52, 2, 5, 11, 10, 3] when the component is first mounted.
+ *
+ * The component uses the useMemo hook to memoize the following functions:
+ * 1. getElementClassName: A function that takes an index and returns a CSS
+ *    class name for the element at that index. The function takes into account
+ *    the state of the Redux store and whether the element is being inserted,
+ *    updated, or deleted.
+ * 2. getContainerClassName: A function that takes no arguments and returns a
+ *    CSS class name for the outermost div. The function takes into account the
+ *    state of the Redux store and whether any elements are being inserted,
+ *    updated, or deleted.
+ * 3. displayArray: A function that takes no arguments and returns the array
+ *    state from the Redux store. The function takes into account whether the
+ *    array is empty and whether an element is being inserted at the end of the
+ *    array.
+ *
+ * The component renders a horizontal list of elements, each element being a
+ * div with a CSS class of "array-element-wrapper". The component also renders
+ * a CSS class of "array-container" on the outermost div. The component renders
+ * the array elements in the order they are stored in the Redux store.
+ *
+ * The component uses the useReducer hook to store the array state in the Redux
+ * store. The component uses the useSelector hook to access the array state from
+ * the Redux store. The component uses the useDispatch hook to dispatch actions
+ * to the Redux store.
+ *
+ * The component uses the useEffect hook to initialize the array state with the
+ * value [52, 2, 5, 11, 10, 3] when the component is first mounted.
+ *
+ * The component uses the useMemo hook to memoize the following functions:
+ * 1. getElementClassName: A function that takes an index and returns a CSS
+ *    class name for the element at that index. The function takes into account
+ *    the state of the Redux store and whether the element is being inserted,
+ *    updated, or deleted.
+ * 2. getContainerClassName: A function that takes no arguments and returns a
+ *    CSS class name for the outermost div. The function takes into account the
+ *    state of the Redux store and whether any elements are being inserted,
+ *    updated, or deleted.
+ * 3. displayArray: A function that takes no arguments and returns the array
+ *    state from the Redux store. The function takes into account whether the
+ *    array is empty and whether an element is being inserted at the end of the
+ *    array.
+ *
+ * The component renders a horizontal list of elements, each element being a
+ * div with a CSS class of "array-element-wrapper". The component also renders
+ * a CSS class of "array-container" on the outermost div. The component renders
+ * the array elements in the order they are stored in the Redux store.
+ */
 const ArrayVisualizer = () => {
   const dispatch = useDispatch();
   const { array, index, isInserting, isUpdating, isDeleting } = useSelector(

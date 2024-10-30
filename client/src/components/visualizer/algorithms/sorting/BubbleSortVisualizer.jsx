@@ -7,8 +7,19 @@ import {
   setArray,
   setCurrentStep,
   setIsPlaying,
-} from "../../../../features/visualizer/visualizerSlice";
+} from "../../../../features/visualizer/algorithms/sorting/bubbleSortVisualizerSlice";
 
+/**
+ * BubbleSortVisualizer is a React component that visualizes the Bubble Sort algorithm.
+ * It uses D3.js to render a bar chart representation of an array being sorted.
+ * The component manages sorting steps, animation control, and rendering updates with Redux.
+ *
+ * The visualization includes comparing and swapping animations between array elements.
+ * A D3.js SVG is used to display the bars, with colors indicating the comparison/swapping state.
+ *
+ * The component initializes with a default array, and uses a control panel to start sorting.
+ * Sorting speed and visual updates are controlled through dispatch actions and state updates.
+ */
 const BubbleSortVisualizer = () => {
   const svgRef = useRef(null);
   const dispatch = useDispatch();
@@ -23,6 +34,17 @@ const BubbleSortVisualizer = () => {
     }
   }, []);
 
+  /**
+   * Generates an array of steps to visualize the Bubble Sort algorithm.
+   * Each step records the current state of the array, the indices being compared,
+   * and whether a swap occurred during that step.
+   *
+   * @param {array} arr - The array to be sorted.
+   * @returns {array} An array of step objects, where each object contains:
+   * - array: The current state of the array.
+   * - comparing: A pair of indices currently being compared.
+   * - swapping: A boolean indicating if a swap was made.
+   */
   const generateSortingSteps = (arr) => {
     const steps = [];
     const n = arr.length;
@@ -102,12 +124,24 @@ const BubbleSortVisualizer = () => {
       .attr("fill", "#4b5563");
   }, [array, currentStep, sortingSteps]);
 
+  /**
+   * Starts the Bubble Sort algorithm animation.
+   * It generates an array of sorting steps using the generateSortingSteps function.
+   * It then dispatches actions to set the initial state of the visualizer and start the animation.
+   * An animation function is defined to recursively update the visualizer with each step,
+   * and is called with the initial step of 0.
+   */
   const startSorting = () => {
     const steps = generateSortingSteps([...array]);
     setSortingSteps(steps);
     dispatch(setIsPlaying(true));
     dispatch(setCurrentStep(0));
 
+    /**
+     * Animates the Bubble Sort algorithm visualization by recursively dispatching
+     * updates to the Redux store with each step of the algorithm.
+     * @param {number} step - The current step to animate.
+     */
     const animate = (step) => {
       if (step >= steps.length) {
         dispatch(setIsPlaying(false));
@@ -135,10 +169,28 @@ const BubbleSortVisualizer = () => {
   );
 };
 
-const BubbleSortControls = ({ onStart }) => {
+// TODO: Get a file for the functions that generate the sorting steps
+/**
+ * A React component that renders a set of controls for the Bubble Sort visualizer.
+ * This component takes a single prop, `onStart`, which is a function that starts
+ * the animation when called.
+ *
+ * The component renders three buttons:
+ * 1. "Start Sorting": Starts the animation when clicked, unless the animation
+ *    is already running.
+ * 2. "Randomize": Randomizes the array when clicked, unless the animation is
+ *    already running.
+ * 3. A slider to control the animation speed.
+ *
+ * The component also renders a text label for the animation speed slider.
+ *
+ * @param {function} onStart - A function that starts the animation when called.
+ * @returns {JSX.Element} A React component that renders the controls.
+ */
+export const BubbleSortControls = ({ onStart }) => {
   const dispatch = useDispatch();
   const { isPlaying, animationSpeed } = useSelector(
-    (state) => state.visualizer
+    (state) => state.bubbleSortVisualizer
   );
 
   return (

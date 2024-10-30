@@ -14,6 +14,12 @@ import TableComponent from "../../components/playground/TableComponent";
 import PathwayCard from "../../components/playground/PathwayCard";
 import CalenderComponent from "../../components/playground/Calender";
 
+/**
+ * A dashboard component for the playground page, containing a table of challenges,
+ * a list of data structures and algorithms, and a user profile card.
+ *
+ * @return {JSX.Element} The rendered component.
+ */
 function PlaygroundDashboard() {
   let tabs = [
     {

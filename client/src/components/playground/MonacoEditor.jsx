@@ -8,8 +8,6 @@ import {
   DropdownItem,
   Button,
   Slider,
-  Card,
-  CardBody,
 } from "@nextui-org/react";
 import {
   Settings,
@@ -18,25 +16,42 @@ import {
   AlignLeftIcon,
   PlayIcon,
   PaletteIcon,
+  Maximize2,
+  Minimize2,
 } from "lucide-react";
 import Loader from "./Loader";
 
-const MonacoEditor = () => {
+import {
+  setCode,
+  setLanguage,
+  setCodeEditortheme,
+  setFontSize,
+} from "../../features/code_editor/codeEditorSlice";
+import { useDispatch, useSelector } from "react-redux";
+
+/**
+ * MonacoEditor component.
+ *
+ * @param {object} props
+ * @param {boolean} [props.isConsoleMinimized=false] - Whether the console is minimized.
+ * @param {string} [props.height="h-[55vh]"] - The height of the editor.
+ *
+ * @returns {React.ReactElement} The MonacoEditor component.
+ */
+const MonacoEditor = ({ isConsoleMinimized, height = "h-[55vh]" }) => {
+  const { fontSize, language, codeEditortheme, code } = useSelector(
+    (state) => state.codeEditor
+  );
+  const dispatch = useDispatch();
   const { theme } = useTheme();
   const [isEditorReady, setIsEditorReady] = useState(false);
-  const [fontSize, setFontSize] = useState(20);
-  const [language, setLanguage] = useState("javascript");
-  const [showSettings, setShowSettings] = useState(false);
-  const [editorValue, setEditorValue] = useState("// Start coding here");
-  const editorTheme = theme === "dark" ? "vs-dark" : "light";
-  const [currentTheme, setCurrentTheme] = useState(editorTheme);
   const [editor, setEditor] = useState(null);
 
+  // Move theme initialization to useEffect
   useEffect(() => {
-    // Update editor theme when system/app theme changes
     const newTheme = theme === "dark" ? "vs-dark" : "light";
-    setCurrentTheme(newTheme);
-  }, [theme]);
+    dispatch(setCodeEditortheme(newTheme));
+  }, [theme, dispatch]);
 
   const languages = [
     "javascript",
@@ -50,7 +65,6 @@ const MonacoEditor = () => {
     "json",
   ];
 
-  // Add this themes array near your languages array
   const themes = [
     { name: "VS Dark", value: "vs-dark" },
     { name: "Light", value: "light" },
@@ -64,7 +78,7 @@ const MonacoEditor = () => {
     setIsEditorReady(true);
     setEditor(editor);
 
-    // Add custom themes
+    // Define custom themes
     monaco.editor.defineTheme("monokai", {
       base: "vs-dark",
       inherit: true,
@@ -80,7 +94,6 @@ const MonacoEditor = () => {
       },
     });
 
-    // Add these theme definitions in your handleEditorDidMount function
     monaco.editor.defineTheme("github", {
       base: "vs",
       inherit: true,
@@ -97,11 +110,6 @@ const MonacoEditor = () => {
       },
     });
 
-    monaco.editor.defineTheme("tomorrow", {
-      base: "vs",
-      inherit: true,
-      rules: [],
-    });
     monaco.editor.defineTheme("tomorrow-night", {
       base: "vs-dark",
       inherit: true,
@@ -117,31 +125,28 @@ const MonacoEditor = () => {
       },
     });
   }
-  async function handleFormat() {
+
+  const handleFormat = async () => {
     if (editor) {
-      editor.getAction("editor.action.formatDocument").run();
+      await editor.getAction("editor.action.formatDocument").run();
     }
-  }
-  function handleRunCode() {
-    const code = editorValue;
+  };
 
-    // Create a new function scope to avoid global scope pollution
+  const handleRunCode = () => {
     try {
-      // Wrap the code in a try-catch to handle runtime errors
       const wrappedCode = `
-      try {
-        ${code}
-      } catch (error) {
-        console.error(error);
-      }
-    `;
-
+        try {
+          ${code}
+        } catch (error) {
+          console.error(error);
+        }
+      `;
       // Use Function constructor for safer evaluation
       new Function(wrappedCode)();
     } catch (error) {
       console.error("Syntax Error:", error.message);
     }
-  }
+  };
 
   const editorOptions = {
     acceptSuggestionOnCommitCharacter: true,
@@ -155,7 +160,6 @@ const MonacoEditor = () => {
     cursorBlinking: "expand",
     cursorSmoothCaretAnimation: true,
     cursorStyle: "line",
-    // disableLayerHinting: false,
     dragAndDrop: true,
     folding: true,
     foldingStrategy: "auto",
@@ -188,128 +192,106 @@ const MonacoEditor = () => {
   };
 
   return (
-    <div className="flex flex-col gap-4  ">
-      <div className="flex justify-between items-center px-4 pt-4 ">
-        <div className="flex gap-2">
-          <Dropdown size="sm">
-            <DropdownTrigger>
-              <Button
-                isDisabled={!isEditorReady}
-                variant="flat"
-                size="sm"
-                startContent={<Code size={18} />}
-              >
-                {language.toUpperCase()}
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              aria-label="Language selection"
-              onAction={(key) => setLanguage(key)}
-              selectedKeys={new Set([language])}
-            >
-              {languages.map((lang) => (
-                <DropdownItem key={lang}>{lang.toUpperCase()}</DropdownItem>
-              ))}
-            </DropdownMenu>
-          </Dropdown>
-
-          <Button
-            variant="flat"
-            size="sm"
-            startContent={<Settings size={18} />}
-            onClick={() => setShowSettings(!showSettings)}
-          >
-            Settings
-          </Button>
-          <Dropdown>
-            <DropdownTrigger>
-              <Button
-                variant="flat"
-                size="sm"
-                startContent={<PaletteIcon size={18} />} // Import PaletteIcon from lucide-react if you want to use it
-              >
-                {themes.find((t) => t.value === currentTheme)?.name}
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              aria-label="Theme selection"
-              onAction={(key) => setCurrentTheme(key)}
-              selectedKeys={new Set([currentTheme])}
-            >
-              {themes.map((theme) => (
-                <DropdownItem key={theme.value}>{theme.name}</DropdownItem>
-              ))}
-            </DropdownMenu>
-          </Dropdown>
-        </div>
-
-        <div className="flex gap-2">
-          <Button
-            size="sm"
-            onClick={handleRunCode}
-            color="success"
-            isDisabled={!isEditorReady}
-          >
-            <PlayIcon size={18} />
-            Run
-          </Button>
-
-          {/* <Button onClick={handleFormat} size="sm" isDisabled={!isEditorReady}>
-            <AlignLeftIcon size={18} />
-            Format
-          </Button> */}
+    <div className="flex flex-col">
+      <div className="flex-none h-12 border-b border-divider px-4 flex items-center justify-between bg-content2/50">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-medium text-default-700">
+            Code Editor
+          </span>
         </div>
         <div className="flex items-center gap-2">
-          <Type size={18} />
-          <Slider
-            label="px"
-            size="sm"
-            step={1}
-            maxValue={24}
-            minValue={10}
-            value={fontSize}
-            onChange={(value) => setFontSize(value)}
-            className="w-32"
-          />
+          <Button variant="ghost" size="sm" isIconOnly>
+            {isConsoleMinimized ? (
+              <Maximize2 className="h-4 w-4" />
+            ) : (
+              <Minimize2 className="h-4 w-4" />
+            )}
+          </Button>
         </div>
       </div>
-      {/* {showSettings && (
-        <Card className=" mx-4">
-          <CardBody>
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center justify-between">
-                <span className="text-sm">Font Size</span>
-                <Slider
-                  label="px"
+      <div className="flex flex-col gap-4">
+        <div className="flex justify-between items-center px-4 pt-4">
+          <div className="flex gap-2">
+            <Dropdown size="sm">
+              <DropdownTrigger>
+                <Button
+                  isDisabled={!isEditorReady}
+                  variant="flat"
                   size="sm"
-                  step={0.01}
-                  maxValue={24}
-                  minValue={10}
-                  value={fontSize}
-                  onChange={(value) => setFontSize(value)}
-                  className="w-48"
-                />
-              </div>
-              // Add more settings here as needed 
-              <div className="flex items-center justify-between">
-                <span>Theme</span>
-                
-              </div>
-            </div>
-          </CardBody>
-        </Card>)} */}
-
-      <div className="h-[60vh] border border-default-200">
-        <Editor
-          height="100%"
-          theme={currentTheme}
-          language={language}
-          value={editorValue}
-          onChange={setEditorValue}
-          options={editorOptions}
-          onMount={handleEditorDidMount}
-          loading={<Loader />}
-        />
+                  startContent={<Code size={18} />}
+                >
+                  {language.toUpperCase()}
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label="Language selection"
+                onAction={(key) => dispatch(setLanguage(key))}
+                selectedKeys={new Set([language])}
+              >
+                {languages.map((lang) => (
+                  <DropdownItem key={lang}>{lang.toUpperCase()}</DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+            <Dropdown>
+              <DropdownTrigger>
+                <Button
+                  variant="flat"
+                  size="sm"
+                  startContent={<PaletteIcon size={18} />}
+                >
+                  {themes.find((t) => t.value === codeEditortheme)?.name ||
+                    "Theme"}
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label="Theme selection"
+                onAction={(key) => dispatch(setCodeEditortheme(key))}
+                selectedKeys={new Set([codeEditortheme])}
+              >
+                {themes.map((theme) => (
+                  <DropdownItem key={theme.value}>{theme.name}</DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+          </div>
+          <div className="flex gap-2">
+            <Button
+              size="sm"
+              onClick={handleRunCode}
+              color="success"
+              isDisabled={!isEditorReady}
+            >
+              <PlayIcon size={18} />
+              Run
+            </Button>
+          </div>
+          <div className="flex items-center gap-2">
+            <Type size={18} />
+            <Slider
+              label="px"
+              size="sm"
+              step={1}
+              maxValue={24}
+              minValue={10}
+              value={fontSize}
+              onChange={(value) => dispatch(setFontSize(value))}
+              className="w-20"
+            />
+          </div>
+        </div>
+        <div className={`${height} border border-default-200`}>
+          <Editor
+            height="100%"
+            theme={codeEditortheme}
+            language={language}
+            value={code}
+            onChange={(newValue) => dispatch(setCode(newValue))}
+            options={editorOptions}
+            onMount={handleEditorDidMount}
+            loading={<Loader />}
+          />
+        </div>
       </div>
     </div>
   );

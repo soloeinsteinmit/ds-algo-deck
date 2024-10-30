@@ -15,6 +15,33 @@ import { ThemeSwitcher } from "./ThemeSwitcher.jsx";
 import Logo from "./Logo.jsx";
 import { NavLink } from "react-router-dom";
 
+/**
+ * A component that renders a navigation bar with a logo, a set of links on the
+ * left side, and a theme switcher and a dropdown menu with the user's
+ * information on the right side.
+ *
+ * @param {JSX.Element} [logoComponent=<Logo />] - The logo component to render.
+ * @param {Array<Link>} [links=[]] - The links to render on the left side of the
+ * navbar.
+ * @param {Object} [avatarDetails] - The user's information to render in the
+ * dropdown menu. The object should have the following properties:
+ *   - `name`: The user's name.
+ *   - `src`: The user's avatar URL.
+ *   - `email`: The user's email address.
+ *   - `size`: The size of the avatar.
+ * @param {Array<DropdownItem>} [dropdownItems=[]] - The items to render in the
+ * dropdown menu.
+ * @param {boolean} [showThemeSwitcher=true] - Whether to show the theme switcher.
+ * @param {boolean} [shouldHideOnScroll=false] - Whether to hide the navbar when
+ * scrolling down.
+ * @param {boolean} [isBlurred=true] - Whether the navbar should have a blurred
+ * background.
+ * @param {string} [height="100px"] - The height of the navbar.
+ * @param {Object} [props] - Additional props to pass to the underlying
+ * `Navbar` component.
+ *
+ * @returns {JSX.Element} The rendered navbar component.
+ */
 export default function NavbarComponent({
   logoComponent = <Logo />,
   links = [],
@@ -30,16 +57,17 @@ export default function NavbarComponent({
 
   isBlurred = true,
   height = "100px",
-  props,
+  ...props
 }) {
   return (
     <Navbar
+      {...props}
       shouldHideOnScroll={shouldHideOnScroll}
       maxWidth="full"
       height={height}
       classNames={{ base: "bg-transparent, p-0 m-0" }}
       isBlurred={isBlurred}
-      {...props}
+      position="sticky"
     >
       <NavbarBrand>{logoComponent}</NavbarBrand>
 

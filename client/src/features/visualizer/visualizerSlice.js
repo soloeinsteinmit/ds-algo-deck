@@ -2,40 +2,38 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   currentView: null,
-  array: [],
-  animationSpeed: 1,
-  isPlaying: false,
-  currentStep: 0,
+  code: null,
+  settings: {},
+  isAnimating: false,
+  speed: 1,
 };
 
 const visualizerSlice = createSlice({
   name: "visualizer",
   initialState,
   reducers: {
+    /**
+     * Sets the current view in the visualizer.
+     * @param {object} state The current state of the visualizer.
+     * @param {object} action The action to perform.
+     * @param {string} action.payload The new view to display.
+     */
     setCurrentView: (state, action) => {
       state.currentView = action.payload;
     },
-    setArray: (state, action) => {
-      state.array = action.payload;
-    },
-    setAnimationSpeed: (state, action) => {
-      state.animationSpeed = action.payload;
-    },
-    setIsPlaying: (state, action) => {
-      state.isPlaying = action.payload;
-    },
-    setCurrentStep: (state, action) => {
-      state.currentStep = action.payload;
+
+    /**
+     * Sets the code to visualize in the visualizer.
+     * @param {object} state The current state of the visualizer.
+     * @param {object} action The action to perform.
+     * @param {string} action.payload The new code to visualize.
+     */
+    setCode: (state, action) => {
+      state.code = action.payload;
     },
   },
 });
 
-export const {
-  setCurrentView,
-  setArray,
-  setAnimationSpeed,
-  setIsPlaying,
-  setCurrentStep,
-} = visualizerSlice.actions;
+export const { setCurrentView, setCode } = visualizerSlice.actions;
 
 export default visualizerSlice.reducer;

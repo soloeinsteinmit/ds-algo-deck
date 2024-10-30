@@ -2,6 +2,13 @@ import NavbarComponent from "../components/Navbar";
 import Footer from "../components/public_page/Footer";
 import Explore from "../pages/Explore/Explore";
 
+/**
+ * A layout component that renders a navigation bar with links, a theme switcher,
+ * and a dropdown menu with the user's information on the right side, and a footer
+ * component.
+ *
+ * @return {JSX.Element} The rendered layout component.
+ */
 function PublicLayout() {
   const links = [
     { label: "Explore🔎", href: "#", isActive: true, color: "warning" },

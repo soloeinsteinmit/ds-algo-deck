@@ -1,6 +1,19 @@
 import { Terminal, XCircle, Maximize2, Minimize2, Trash } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
+/**
+ * A component that displays a console output.
+ *
+ * @param {{ height?: string }} props - The component props.
+ * @param {string} [props.height="200px"] - The height of the console output.
+ *
+ * @returns {React.ReactElement} The console component.
+ *
+ * @example
+ * import { Console } from "@components/playground/Console";
+ *
+ * <Console height="300px" />
+ */
 const Console = ({ height = "200px" }) => {
   const [logs, setLogs] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -20,6 +33,17 @@ const Console = ({ height = "200px" }) => {
       return;
     }
 
+    /**
+     * A custom implementation of console.log that logs messages to the
+     * internal state of the component, in addition to printing them to the
+     * console. The logged messages are stored in an array with the following
+     * structure:
+     * [
+     *   { type: "log", content: [...args], timestamp: Date },
+     *   { type: "log", content: [...args], timestamp: Date },
+     *   ...
+     * ]
+     */
     console.log = (...args) => {
       setLogs((prev) => [
         ...prev,
@@ -28,6 +52,17 @@ const Console = ({ height = "200px" }) => {
       originalLog.apply(console, args);
     };
 
+    /**
+     * A custom implementation of console.error that logs messages to the
+     * internal state of the component, in addition to printing them to the
+     * console. The logged messages are stored in an array with the following
+     * structure:
+     * [
+     *   { type: "error", content: [...args], timestamp: Date },
+     *   { type: "error", content: [...args], timestamp: Date },
+     *   ...
+     * ]
+     */
     console.error = (...args) => {
       setLogs((prev) => [
         ...prev,
@@ -43,10 +78,26 @@ const Console = ({ height = "200px" }) => {
     };
   }, []);
 
+  /**
+   * Clears the console output.
+   *
+   * @function
+   * @returns {void}
+   */
   const clearConsole = () => {
     setLogs([]);
   };
 
+  /**
+   * Takes an array of log content and formats it into a single string
+   * for display in the console.
+   *
+   * @param {Array<*>} content - An array of log content, which may contain
+   *   any type of values.
+   * @returns {string} A string representation of the log content. If the
+   *   content contains objects, they will be stringified with 2 spaces of
+   *   indentation.
+   */
   const formatLogContent = (content) => {
     return content
       .map((item) => {
@@ -58,6 +109,15 @@ const Console = ({ height = "200px" }) => {
       .join(" ");
   };
 
+  /**
+   * Formats a timestamp into a string for display in the console.
+   *
+   * The timestamp is formatted in 24-hour time format, with hours, minutes,
+   * and seconds. The resulting string is in the format "HH:mm:ss".
+   *
+   * @param {Date} timestamp - The timestamp to format.
+   * @returns {string} A string representation of the timestamp in 24-hour time format.
+   */
   const formatTimestamp = (timestamp) => {
     return timestamp.toLocaleTimeString([], { hour12: false });
   };

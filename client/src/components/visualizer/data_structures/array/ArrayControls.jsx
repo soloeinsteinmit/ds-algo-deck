@@ -19,6 +19,12 @@ import {
   setElement,
 } from "../../../../features/visualizer/arrays/arrayVisualizerSlice";
 
+/**
+ * Component containing controls for interacting with an array visualizer.
+ *
+ * @returns A component containing controls for inserting, deleting, updating,
+ * searching, sorting, reversing, shuffling, and clearing an array.
+ */
 const ArrayControls = () => {
   const [isError, setIsError] = useState(false);
   const [alertVisible, setAlertVisible] = useState(false);
@@ -36,14 +42,20 @@ const ArrayControls = () => {
   }, [array]);
 
   return (
-    <div className="p-4 space-y-4 ">
-      <div className="flex items-end justify-center gap-4 transition-all">
+    <div className="p-4 space-y-4 flex flex-col items-center justify-end w-full h-full ">
+      <ControlsAlert
+        message={message}
+        isError={isError}
+        isVisible={alertVisible}
+        onHide={() => setAlertVisible(false)}
+      />
+      <div className="flex items-end justify-center gap-4 transition-all w-full">
         <Input
           type="number"
           label="Element"
           placeholder="Element"
           value={element?.toString() || ""}
-          className="w-24"
+          className="min-w-24"
           onChange={(e) => dispatch(setElement(parseInt(e.target.value)))}
         />
         <Input
@@ -54,7 +66,7 @@ const ArrayControls = () => {
           min={0}
           value={index?.toString()}
           onChange={(e) => dispatch(setIndex(parseInt(e.target.value)))}
-          className="w-24"
+          className="min-w-24"
         />
         <Button
           onClick={() =>
@@ -112,7 +124,7 @@ const ArrayControls = () => {
           placeholder="Search value"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
-          className="w-24"
+          className="min-w-24"
         />
         <Button
           onClick={() =>
@@ -135,11 +147,13 @@ const ArrayControls = () => {
           Sort {sortOrder === "asc" ? "↑" : "↓"}
         </Button>
         <Button
+          className="min-w-fit"
           onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
         >
           Toggle Sort Order
         </Button>
         <Button
+          className="min-w-fit"
           onClick={() => randomizeArray(dispatch, setAlertVisible)}
           color="secondary"
         >
@@ -162,12 +176,6 @@ const ArrayControls = () => {
           Shuffle
         </Button>
       </div>
-      <ControlsAlert
-        message={message}
-        isError={isError}
-        isVisible={alertVisible}
-        onHide={() => setAlertVisible(false)}
-      />
     </div>
   );
 };
