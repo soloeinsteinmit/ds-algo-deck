@@ -1,5 +1,5 @@
-import { memo, useMemo } from "react";
-import BubbleSortVisualizer from "../components/visualizer/algorithms/sorting/BubbleSortVisualizer";
+import { useMemo } from "react";
+import { BubbleSortVisualizer } from "../components/visualizer/algorithms/sorting/BubbleSortVisualizer";
 import ArrayControls from "../components/visualizer/data_structures/array/ArrayControls";
 import ArrayVisualizer from "../components/visualizer/data_structures/array/ArrayVisualizer";
 

@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as d3 from "d3";
 import "./BubbleSortVisualizer.css";
-import BubbleSortControls from "./BubbleSortControl";
 
 import {
   setArray,
@@ -22,7 +21,7 @@ import {
  * The component initializes with a default array, and uses a control panel to start sorting.
  * Sorting speed and visual updates are controlled through dispatch actions and state updates.
  */
-const BubbleSortVisualizer = () => {
+export const BubbleSortVisualizer = () => {
   const svgRef = useRef(null);
   const containerRef = useRef(null);
   const dispatch = useDispatch();
@@ -168,5 +167,3 @@ const BubbleSortVisualizer = () => {
     </div>
   );
 };
-
-export default BubbleSortVisualizer;

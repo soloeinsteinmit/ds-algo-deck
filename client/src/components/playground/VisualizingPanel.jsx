@@ -1,48 +1,214 @@
 import { useSelector } from "react-redux";
 import VisualizerLoader from "../../utils/VisualizerLoader";
-import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Button,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  Link,
+} from "@nextui-org/react";
 import { memo } from "react";
+import { PiInfo } from "react-icons/pi";
 
-/**
- * VisualizingPanel component renders a dynamic visualization interface.
- *
- * This component retrieves the current visualizer type from the Redux
- * store and uses the VisualizerLoader utility to obtain the relevant
- * title, visualizer, and controls components. If no visualizer is
- * selected or available, it displays the NothingState component.
- *
- * The component is structured into three main sections:
- * - Header: Displays the title of the visualizer and can include additional controls.
- * - Main Visualization Area: Hosts the visualizer component.
- * - Controls Area: Contains the controls related to the visualizer.
- *
- * The component uses Tailwind CSS classes for styling.
- */
+const ComplexityGraph = ({ complexity }) => {
+  // Graph dimensions
+  const width = 150;
+  const height = 100;
+  const padding = 20;
+
+  // Generate points based on complexity
+  const getPoints = () => {
+    const points = [];
+    const numPoints = 10;
+
+    for (let i = 0; i < numPoints; i++) {
+      const x = (i / (numPoints - 1)) * (width - 2 * padding) + padding;
+      let y = height - padding;
+
+      switch (complexity) {
+        case "O(n²)":
+          y =
+            height -
+            padding -
+            ((i * i) / ((numPoints - 1) * (numPoints - 1))) *
+              (height - 2 * padding);
+          break;
+        case "O(n)":
+          y = height - padding - (i / (numPoints - 1)) * (height - 2 * padding);
+          break;
+        case "O(log n)":
+          y =
+            height -
+            padding -
+            (Math.log(i + 1) / Math.log(numPoints)) * (height - 2 * padding);
+          break;
+        default:
+          y = height - padding - (i / (numPoints - 1)) * (height - 2 * padding);
+      }
+      points.push({ x, y });
+    }
+    return points;
+  };
+
+  const points = getPoints();
+  const pathD = `M ${points.map((p) => `${p.x},${p.y}`).join(" L ")}`;
+
+  return (
+    <div className="mt-4 mb-6">
+      <h5 className="font-medium mb-2">Time Complexity Graph:</h5>
+      <div className="bg-content2/50 rounded-lg p-2">
+        <svg
+          width={width}
+          height={height}
+          className="overflow-visible text-white"
+        >
+          {/* X and Y axes */}
+          <line
+            x1={padding}
+            y1={height - padding}
+            x2={width - padding}
+            y2={height - padding}
+            stroke="currentColor"
+            strokeWidth="1"
+          />
+          <line
+            x1={padding}
+            y1={height - padding}
+            x2={padding}
+            y2={padding}
+            stroke="currentColor"
+            strokeWidth="1"
+          />
+
+          {/* Complexity curve */}
+          <path
+            d={pathD}
+            fill="none"
+            stroke="#06b6d4"
+            strokeWidth="2"
+            className="transition-all duration-300"
+          />
+
+          {/* Axis labels */}
+          <text
+            x={width / 2}
+            y={height - 5}
+            textAnchor="middle"
+            className="text-[10px]"
+          >
+            n (input size)
+          </text>
+          <text
+            x={10}
+            y={height / 2}
+            transform={`rotate(-90, 10, ${height / 2})`}
+            textAnchor="middle"
+            className="text-[10px]"
+          >
+            time
+          </text>
+        </svg>
+      </div>
+    </div>
+  );
+};
+
+const AlgorithmInfo = () => {
+  const algorithmData = {
+    bubbleSort: {
+      title: "Bubble Sort",
+      description:
+        "A simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order.",
+      complexity: "O(n²)",
+      keyPoints: [
+        "Time Complexity: O(n²)",
+        "Space Complexity: O(1)",
+        "Stable: Yes",
+        "In-place: Yes",
+      ],
+      characteristics: [
+        "Easy to understand and implement",
+        "Poor performance on large lists",
+        "Best case: O(n) when array is already sorted",
+      ],
+      readMoreLink: "/algorithms/bubble-sort",
+    },
+    // Add more algorithms here...
+  };
+
+  const data = algorithmData;
+  // if (!data) return null;
+
+  return (
+    <div className="p-4 max-w-sm">
+      <h4 className="text-lg font-semibold mb-3">{data.bubbleSort.title}</h4>
+      <p className="text-sm text-default-600 mb-4">
+        {data.bubbleSort.description}
+      </p>
+
+      <ComplexityGraph complexity={data.bubbleSort.complexity} />
+
+      <div className="mb-4">
+        <h5 className="font-medium mb-2">Complexity Analysis:</h5>
+        <ul className="list-disc list-inside text-sm space-y-1">
+          {data.bubbleSort.keyPoints.map((point, index) => (
+            <li key={index} className="text-default-600">
+              {point}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="mb-4">
+        <h5 className="font-medium mb-2">Key Characteristics:</h5>
+        <ul className="list-disc list-inside text-sm space-y-1">
+          {data.bubbleSort.characteristics.map((char, index) => (
+            <li key={index} className="text-default-600">
+              {char}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <Link
+        href={data.bubbleSort.readMoreLink}
+        className="text-sm text-primary hover:underline"
+      >
+        Read more about {data.bubbleSort.title} →
+      </Link>
+    </div>
+  );
+};
+
 function VisualizingPanel() {
-  // Assuming you store current visualizer type in Redux
   const { currentView } = useSelector((state) => state.visualizer);
-
-  // Load the appropriate components
   const { title, visualizer, controls } = VisualizerLoader({
     type: currentView,
   });
 
-  // console.log(currentView);
-
-  if (!currentView || !visualizer) {
-    console.log(visualizer);
-    return <NothingState />;
-  }
+  console.log("Current View:", currentView);
 
   return (
     <Card className="w-full h-full flex flex-col bg-background/60 backdrop-blur-lg">
       {/* Header */}
       <CardHeader className="flex-none px-6 py-3 border-b border-divider bg-content2/50">
         <div className="w-full flex items-center justify-between">
-          <h3 className="text-lg font-medium text-default-800">{title}</h3>
-          {/* Optional: Add additional header controls/buttons here */}
-          <div className="flex gap-2">
-            {/* Example: Add buttons for different views or controls */}
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg font-medium text-default-800">{title}</h3>
+            <Popover>
+              <PopoverTrigger>
+                <Button isIconOnly size="sm" variant="light">
+                  <PiInfo className="text-xl" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent>
+                <AlgorithmInfo />
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
       </CardHeader>

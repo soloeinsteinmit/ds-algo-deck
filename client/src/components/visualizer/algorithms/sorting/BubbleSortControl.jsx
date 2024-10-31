@@ -40,7 +40,7 @@ const BubbleSortControls = () => {
     currentStep,
     sortingSteps,
   } = useSelector((state) => state.bubbleSortVisualizer);
-  const [arraySize, setArraySize] = useState(7);
+  const [arraySize, setArraySize] = useState(array.length);
 
   return (
     <div className="rounded-lg shadow-lg p-4 space-y-4">
