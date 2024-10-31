@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { persistReducer } from "redux-persist";
+import { visualizerPersistConfig } from "./visualizerPersistConfig";
 
 const initialState = {
   currentView: null,
   code: null,
   settings: {},
   isAnimating: false,
-  speed: 1, 
+  speed: 1,
 };
 
 const visualizerSlice = createSlice({
@@ -34,6 +36,11 @@ const visualizerSlice = createSlice({
   },
 });
 
+const persistedVisualizerReducer = persistReducer(
+  visualizerPersistConfig,
+  visualizerSlice.reducer
+);
+
 export const { setCurrentView, setCode } = visualizerSlice.actions;
 
-export default visualizerSlice.reducer;
+export default persistedVisualizerReducer;

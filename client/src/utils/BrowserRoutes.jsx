@@ -1,33 +1,17 @@
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-} from "react-router-dom";
-import MainOuletLayout from "../layouts/MainOutletLayout";
-import PublicLayout from "../layouts/PublicLayout";
-import Explore from "../pages/Explore/Explore";
-import Algorithms from "../pages/Algorithms/Algorithms";
-import PlaygroundDashboardLayout from "../layouts/PlaygroundDashboardLayout";
-import PlaygroundDashboard from "../pages/Playground/PlaygroundDashboard";
-import PlaygroundLayout from "../layouts/PlaygroundLayout";
-import PageNotFound from "../pages/NotFound/PageNotFound";
+import { createBrowserRouter } from "react-router-dom";
+import { Suspense } from "react";
+import { routeConfig } from "../routes/routeConfig.jsx";
+import Loader from "../components/playground/Loader";
 
-export const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<MainOuletLayout />}>
-      {/* Public routes */}
-      <Route path="/" element={<PublicLayout />}>
-        <Route index element={<Explore />} />
-        <Route path="algorithms" element={<Algorithms />} />
-      </Route>
+// Wrap lazy-loaded components with Suspense
+const wrapWithSuspense = (routes) => {
+  const wrapElement = (route) => ({
+    ...route,
+    element: <Suspense fallback={<Loader />}>{route.element}</Suspense>,
+    ...(route.children && { children: route.children.map(wrapElement) }),
+  });
 
-      {/* Dashboard routes */}
-      <Route path="dashboard" element={<PlaygroundDashboardLayout />}>
-        <Route index element={<PlaygroundDashboard />} />
-        <Route path="playground" element={<PlaygroundLayout />} />
-      </Route>
+  return wrapElement(routes);
+};
 
-      <Route path="*" element={<PageNotFound />} />
-    </Route>
-  )
-);
+export const router = createBrowserRouter([wrapWithSuspense(routeConfig)]);

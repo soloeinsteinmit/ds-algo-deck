@@ -2,6 +2,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import NavbarComponent from "../components/Navbar";
+import { ROUTES } from "../routes/routeConstants";
 
 /**
  * A layout component that renders a navbar with a logo and a set of links, and
@@ -16,8 +17,13 @@ import NavbarComponent from "../components/Navbar";
  */
 function PlaygroundDashboardLayout() {
   const links = [
-    { label: "Home🏠", href: "/dashboard", isActive: true, color: "warning" },
-    { label: "Playground 🛠🛝", href: "playground" },
+    {
+      label: "Home🏠",
+      href: ROUTES.DASHBOARD.ROOT,
+      isActive: true,
+      color: "warning",
+    },
+    { label: "Playground 🛠🛝", href: ROUTES.DASHBOARD.PLAYGROUND },
     { label: "Practice Mode🧑‍💻", href: "#" },
     { label: "Resources📚", href: "#", color: "foreground" },
   ];
