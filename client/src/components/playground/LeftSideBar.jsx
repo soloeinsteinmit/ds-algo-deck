@@ -133,7 +133,8 @@ const LeftSideBar = () => {
    * the `setCode` action with the code for the topic as an argument.
    */
   const handleTopicClick = (topic) => {
-    dispatch(setCurrentView(topic));
+    dispatch(setCurrentView(topic.name));
+    console.log(topic);
     // dispatch(setCode(getCodeForTopic(topic)));
   };
 

@@ -1,10 +1,10 @@
-import BubbleSortVisualizer, {
-  BubbleSortControls,
-} from "../components/visualizer/algorithms/sorting/BubbleSortVisualizer";
+import { memo, useMemo } from "react";
+import BubbleSortVisualizer from "../components/visualizer/algorithms/sorting/BubbleSortVisualizer";
 import ArrayControls from "../components/visualizer/data_structures/array/ArrayControls";
 import ArrayVisualizer from "../components/visualizer/data_structures/array/ArrayVisualizer";
 
 import { VisualizerType } from "../types/visualizer"; // Import the visualizer types
+import BubbleSortControls from "../components/visualizer/algorithms/sorting/BubbleSortControl";
 
 /**
  * VisualizerLoader is a higher-order component that maps a visualizer type to
@@ -23,31 +23,61 @@ import { VisualizerType } from "../types/visualizer"; // Import the visualizer t
  */
 const VisualizerLoader = ({ type }) => {
   // Map visualizer types to their respective visualizer and control components
-  const visualizerMap = {
-    [VisualizerType.ARRAY]: {
-      visualizer: ArrayVisualizer,
-      controls: ArrayControls,
-      title: "Basic Array Operations",
-    },
-    [VisualizerType.BUBBLE_SORT]: {
-      visualizer: BubbleSortVisualizer,
-      controls: BubbleSortControls,
-      title: "Bubble Sort Algorithm",
-    },
-    // Add more visualizers here as needed
-  };
+  const visualizerMap = useMemo(
+    () => ({
+      [VisualizerType.BASIC_ARRAY_OPERATIONS]: {
+        visualizer: ArrayVisualizer,
+        controls: ArrayControls,
+        title: "Basic Array Operations",
+      },
+      [VisualizerType.BUBBLE_SORT]: {
+        visualizer: BubbleSortVisualizer,
+        controls: BubbleSortControls,
+        title: "Bubble Sort Algorithm",
+      },
+    }),
+    []
+  ); // Empty dependency array as this map is static
 
-  // If the type doesn't match, default to the 'array' type
-  const current = visualizerMap[type] || visualizerMap[VisualizerType.ARRAY];
+  // Validate the type prop and provide a fallback
+  const current = useMemo(() => {
+    if (type && Object.values(VisualizerType).includes(type)) {
+      return visualizerMap[type];
+    } else {
+      console.warn(
+        `Invalid visualizer type: ${type}. Defaulting to Basic Array Operations.`
+      );
+      // TODO: Add a default visualizer
+      return visualizerMap[VisualizerType.BASIC_ARRAY_OPERATIONS]; // Fallback to a default
+    }
+  }, [type, visualizerMap]);
+
+  // Ensure current is defined before accessing its properties
+  if (!current) {
+    return {
+      title: "Error",
+      visualizer: null,
+      controls: null,
+    };
+  }
+
+  // Memoize component instances to prevent unnecessary re-renders
   const Visualizer = current.visualizer;
   const Controls = current.controls;
+
+  const visualizerElement = useMemo(() => <Visualizer />, [Visualizer]);
+  const controlsElement = useMemo(() => <Controls />, [Controls]);
 
   // Return the selected visualizer with title, visualizer, and controls
   return {
     title: current.title,
-    visualizer: <Visualizer />,
-    controls: <Controls />,
+    visualizer: visualizerElement,
+    controls: controlsElement,
   };
 };
+
+// VisualizerLoader.prototype = {
+//   type: PropTypes.oneOf(Object.values(VisualizerType)),
+// };
 
 export default VisualizerLoader;

@@ -11,7 +11,7 @@ export const categories = {
       },
       "Linked Lists": {
         topics: [
-          { name: "Singly Linked List", implemented: true },
+          { name: "Singly Linked List", implemented: false },
           { name: "Doubly Linked List", implemented: false },
           { name: "Circular Linked List", implemented: false },
         ],

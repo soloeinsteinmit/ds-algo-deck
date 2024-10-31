@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import VisualizerLoader from "../../utils/VisualizerLoader";
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
+import { memo } from "react";
 
 /**
  * VisualizingPanel component renders a dynamic visualization interface.
@@ -26,7 +27,10 @@ function VisualizingPanel() {
     type: currentView,
   });
 
+  // console.log(currentView);
+
   if (!currentView || !visualizer) {
+    console.log(visualizer);
     return <NothingState />;
   }
 
@@ -60,7 +64,7 @@ function VisualizingPanel() {
   );
 }
 
-export default VisualizingPanel;
+export default memo(VisualizingPanel);
 
 /**
  * LoadingState component displays a centered loading animation.
@@ -111,28 +115,3 @@ const ErrorState = ({ message }) => (
     </div>
   </div>
 );
-
-/* import React from "react";
-import ArrayVisualizer from "../visualizer/data_structures/array/ArrayVisualizer";
-// import BubbleSortVisualizer from "../visualizer/algorithms/sorting/BubbleSortVisualizer";
-import ArrayControls from "../visualizer/data_structures/array/ArrayControls";
-
-function VisualizingPanel({}) {
-  return (
-    <div className="w-full flex-grow rounded-medium shadow-medium overflow-hidden flex flex-col">
-      <h3 className="text-center text-base py-3 w-full bg-content2">
-        Basic Array Operations
-      </h3>
-      <div className=" flex-grow flex items-center justify-center">
-        <ArrayVisualizer />
-        
-      </div>
-      <div className="w-full h-36 text-center border-t border-divider overflow-y-auto">
-        <ArrayControls />
-      </div>
-    </div>
-  );
-}
-
-export default VisualizingPanel;
- */

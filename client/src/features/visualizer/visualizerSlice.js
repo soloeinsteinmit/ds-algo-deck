@@ -5,7 +5,7 @@ const initialState = {
   code: null,
   settings: {},
   isAnimating: false,
-  speed: 1,
+  speed: 1, 
 };
 
 const visualizerSlice = createSlice({

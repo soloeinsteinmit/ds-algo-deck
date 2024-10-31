@@ -1,63 +1,116 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { persistReducer } from "redux-persist";
+import { bubbleSortPersistConfig } from "./bubbleSortPersistConfig";
 
 const initialState = {
   array: [],
-  steps: [],
+  sortingSteps: [],
   currentStep: 0,
   isPlaying: false,
-  animationSpeed: 1,
+  animationSpeed: 5,
+  isPaused: false,
+};
+
+// Helper function to generate sorting steps
+const generateSortingSteps = (arr) => {
+  const steps = [];
+  const n = arr.length;
+  const tempArray = [...arr];
+
+  for (let i = 0; i < n - 1; i++) {
+    for (let j = 0; j < n - i - 1; j++) {
+      steps.push({
+        array: [...tempArray],
+        comparing: [j, j + 1],
+        swapping: false,
+      });
+
+      if (tempArray[j] > tempArray[j + 1]) {
+        [tempArray[j], tempArray[j + 1]] = [tempArray[j + 1], tempArray[j]];
+        steps.push({
+          array: [...tempArray],
+          comparing: [j, j + 1],
+          swapping: true,
+        });
+      }
+    }
+  }
+  return steps;
 };
 
 const bubbleSortVisualizerSlice = createSlice({
   name: "bubbleSortVisualizer",
   initialState,
   reducers: {
-    /**
-     * Sets the array to visualize in the bubble sort visualizer.
-     * @param {array} action.payload The array to visualize.
-     */
     setArray: (state, action) => {
       state.array = action.payload;
+      // Generate new sorting steps when array changes
+      state.sortingSteps = generateSortingSteps([...action.payload]);
     },
-    /**
-     * Sets the steps to visualize in the bubble sort visualizer.
-     * @param {array} action.payload The steps to visualize, where each step is an object with the following properties:
-     * - array: The current state of the array being sorted.
-     * - comparing: A pair of array indices being compared.
-     * - swapping: Whether the pair of elements were swapped.
-     */
-    setSteps: (state, action) => {
-      state.steps = action.payload;
-    },
-    /**
-     * Sets the current step in the bubble sort visualizer.
-     * @param {number} action.payload The index of the step to set as current.
-     */
     setCurrentStep: (state, action) => {
       state.currentStep = action.payload;
+      // Update array to match current step
+      if (state.sortingSteps[action.payload]) {
+        state.array = state.sortingSteps[action.payload].array;
+      }
     },
-    /**
-     * Sets whether the bubble sort visualizer is currently playing an animation.
-     * @param {boolean} action.payload Whether the visualizer is playing an animation.
-     */
     setIsPlaying: (state, action) => {
       state.isPlaying = action.payload;
     },
-    /**
-     * Sets the animation speed in the bubble sort visualizer.
-     * @param {number} action.payload The animation speed, with higher numbers being faster.
-     */
     setAnimationSpeed: (state, action) => {
       state.animationSpeed = action.payload;
+    },
+    setPaused: (state, action) => {
+      state.isPaused = action.payload;
+    },
+    stepForward: (state) => {
+      if (state.currentStep < state.sortingSteps.length - 1) {
+        state.currentStep += 1;
+        state.array = state.sortingSteps[state.currentStep].array;
+      }
+    },
+    stepBackward: (state) => {
+      if (state.currentStep > 0) {
+        state.currentStep -= 1;
+        state.array = state.sortingSteps[state.currentStep].array;
+      }
+    },
+    reset: (state) => {
+      state.currentStep = 0;
+      state.isPlaying = false;
+      state.isPaused = false;
+      if (state.sortingSteps.length > 0) {
+        state.array = state.sortingSteps[0].array;
+      }
+    },
+    generateNewArray: (state, action) => {
+      const size = action.payload;
+      const newArray = Array.from(
+        { length: size },
+        () => Math.floor(Math.random() * 100) + 1
+      );
+      state.array = newArray;
+      state.sortingSteps = generateSortingSteps(newArray);
+      state.currentStep = 0;
     },
   },
 });
 
+const persistedBubbleSortReducer = persistReducer(
+  bubbleSortPersistConfig,
+  bubbleSortVisualizerSlice.reducer
+);
+
 export const {
-  setSteps,
+  setArray,
   setCurrentStep,
   setIsPlaying,
   setAnimationSpeed,
-  setArray,
+  setPaused,
+  stepForward,
+  stepBackward,
+  reset,
+  generateNewArray,
 } = bubbleSortVisualizerSlice.actions;
-export default bubbleSortVisualizerSlice.reducer;
+
+export default persistedBubbleSortReducer;

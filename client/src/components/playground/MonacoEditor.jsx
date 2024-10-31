@@ -269,7 +269,7 @@ const MonacoEditor = ({ isConsoleMinimized, height = "h-[55vh]" }) => {
           <div className="flex items-center gap-2">
             <Type size={18} />
             <Slider
-              label="px"
+              // label="px"
               size="sm"
               step={1}
               maxValue={24}
@@ -277,6 +277,7 @@ const MonacoEditor = ({ isConsoleMinimized, height = "h-[55vh]" }) => {
               value={fontSize}
               onChange={(value) => dispatch(setFontSize(value))}
               className="w-20"
+              aria-label="Font Size"
             />
           </div>
         </div>
