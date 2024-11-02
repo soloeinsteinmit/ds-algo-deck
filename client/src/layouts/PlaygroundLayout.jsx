@@ -24,7 +24,7 @@ import MemoizedVisualizingPanel from "../components/playground/VisualizingPanel.
  * The component uses the `useState` hook to keep track of the state of the left
  * sidebar and the code editor.
  */
-const PlaygroundLayout = () => {
+export const PlaygroundLayout = () => {
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [isListOpen, setIsListOpen] = useState(true);
 
@@ -86,5 +86,3 @@ const PlaygroundLayout = () => {
     </div>
   );
 };
-
-export default PlaygroundLayout;

@@ -10,5 +10,8 @@ export default defineConfig({
     },
     extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
+  server: {
+    hmr: true,
+  },
   plugins: [react()],
 });

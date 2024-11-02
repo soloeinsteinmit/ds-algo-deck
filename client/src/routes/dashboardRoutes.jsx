@@ -1,6 +1,6 @@
-import PlaygroundDashboardLayout from "../layouts/PlaygroundDashboardLayout";
-import PlaygroundDashboard from "../pages/Playground/PlaygroundDashboard";
-import PlaygroundLayout from "../layouts/PlaygroundLayout";
+import PlaygroundDashboardLayout from "../layouts/PlaygroundDashboardLayout.jsx";
+import PlaygroundDashboard from "../pages/Playground/PlaygroundDashboard.jsx";
+import { PlaygroundLayout } from "../layouts/PlaygroundLayout.jsx";
 
 export const dashboardRoutes = {
   path: "dashboard",

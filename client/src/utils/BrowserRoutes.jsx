@@ -1,4 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
+import { routeConfig } from "../routes/routeConfig.jsx";
+
+export const router = createBrowserRouter([routeConfig]);
+
+/* 
+
+
+import { createBrowserRouter } from "react-router-dom";
 import { Suspense } from "react";
 import { routeConfig } from "../routes/routeConfig.jsx";
 import Loader from "../components/playground/Loader";
@@ -15,3 +23,4 @@ const wrapWithSuspense = (routes) => {
 };
 
 export const router = createBrowserRouter([wrapWithSuspense(routeConfig)]);
+*/

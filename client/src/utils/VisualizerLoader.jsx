@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { VisualizerType } from "../types/visualizer";
+import { VisualizerType } from "../types/visualizer.js";
 // Import notes directly
 import { basicArrayOperationsNote } from "./data_structure/dsa_notes/arraysShortNotes";
 import { bubbleSortNote } from "./data_structure/dsa_notes/sortingAlgorithmsShortNotes";
@@ -9,6 +9,9 @@ import ArrayVisualizer from "../components/visualizer/data_structures/array/Arra
 import ArrayControls from "../components/visualizer/data_structures/array/ArrayControls";
 import { BubbleSortVisualizer } from "../components/visualizer/algorithms/sorting/BubbleSortVisualizer";
 import { BubbleSortControls } from "../components/visualizer/algorithms/sorting/BubbleSortControl";
+import LinearSearchVisualizer from "../components/visualizer/algorithms/searching/LinearSearchVisualizer";
+import LinearSearchControls from "../components/visualizer/algorithms/searching/LinearSearchControls";
+import { linearSearchNote } from "./data_structure/dsa_notes/searchingAlgorithmsShortNotes";
 
 const VisualizerLoader = ({ type }) => {
   const visualizerMap = useMemo(
@@ -24,6 +27,12 @@ const VisualizerLoader = ({ type }) => {
         controls: BubbleSortControls,
         title: "Bubble Sort Algorithm",
         notes: bubbleSortNote,
+      },
+      [VisualizerType.LINEAR_SEARCH]: {
+        visualizer: LinearSearchVisualizer,
+        controls: LinearSearchControls,
+        title: "Linear Search Algorithm",
+        notes: linearSearchNote,
       },
     }),
     []
