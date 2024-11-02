@@ -2,7 +2,7 @@
 export const VisualizerType = {
   // data structures
   // implemented
-  BASIC_ARRAY_OPERATIONS: "Basic Operations",
+  BASIC_ARRAY_OPERATIONS: "Basic Array Operations",
 
   // not implemented
   DYNAMIC_ARRAYS: "Dynamic Arrays",

@@ -30,7 +30,7 @@ import { useState } from "react";
  * @param {function} onStart - A function that starts the animation when called.
  * @returns {JSX.Element} A React component that renders the controls.
  */
-const BubbleSortControls = () => {
+export const BubbleSortControls = () => {
   const dispatch = useDispatch();
   const {
     array,
@@ -43,7 +43,7 @@ const BubbleSortControls = () => {
   const [arraySize, setArraySize] = useState(array.length);
 
   return (
-    <div className="rounded-lg shadow-lg p-4 space-y-4">
+    <div className=" p-4 space-y-4">
       <div className="flex gap-4 items-center">
         {!isPlaying && !isPaused && (
           <Button color="primary" onClick={() => dispatch(setIsPlaying(true))}>
@@ -105,21 +105,19 @@ const BubbleSortControls = () => {
           className="w-32"
           isDisabled={isPlaying || isPaused}
         />
-      </div>
-      <div className="flex items-center gap-4">
-        <span className="text-sm">Animation Speed:</span>
-        <Slider
-          value={animationSpeed}
-          onChange={(value) => dispatch(setAnimationSpeed(value))}
-          minValue={5}
-          maxValue={100}
-          step={0.5}
-          className="w-48"
-          aria-label="Animation Speed"
-        />
+        <div className="flex items-center gap-4">
+          <span className="text-sm">Animation Speed:</span>
+          <Slider
+            value={animationSpeed}
+            onChange={(value) => dispatch(setAnimationSpeed(value))}
+            minValue={5}
+            maxValue={100}
+            step={0.5}
+            className="w-48"
+            aria-label="Animation Speed"
+          />
+        </div>
       </div>
     </div>
   );
 };
-
-export default BubbleSortControls;

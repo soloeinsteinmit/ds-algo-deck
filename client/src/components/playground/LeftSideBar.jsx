@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Input } from "@nextui-org/react";
-import { Search, ChevronDown, ChevronRight } from "lucide-react";
+import { Search, ChevronDown, ChevronRight, List, Grid2X2 } from "lucide-react";
 import { categories } from "../../utils/algorithmsData";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setCurrentView,
   setCode,
 } from "../../features/visualizer/visualizerSlice";
+import { Button } from "@nextui-org/react";
 
 /**
  * A button that displays a category title and an arrow icon that rotates 90
@@ -64,9 +65,13 @@ const ItemHeader = ({ expanded, title, onClick }) => (
  */
 const TopicItem = ({ topic, onClick }) => (
   <div
-    onClick={onClick}
-    className="flex items-center p-2 cursor-pointer hover:bg-content2 rounded-md 
-               transition-all duration-200 text-sm group active:scale-95"
+    onClick={topic.implemented ? onClick : null}
+    className={`flex items-center p-2  rounded-md 
+                text-sm group ${
+                  !topic.implemented
+                    ? "opacity-50 cursor-not-allowed"
+                    : "cursor-pointer hover:bg-content2 active:scale-95 transition-all duration-200"
+                }`}
   >
     <span className="ml-2 text-default-600 group-hover:text-default-800">
       {topic.name}
@@ -116,6 +121,7 @@ const TopicItem = ({ topic, onClick }) => (
  */
 const LeftSideBar = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchMode, setSearchMode] = useState("category");
   const [expandedCategories, setExpandedCategories] = useState({
     dataStructures: true,
     algorithms: true,
@@ -203,13 +209,33 @@ const LeftSideBar = () => {
     );
   };
 
+  /**
+   * Filters and returns all topics across all categories
+   * @returns {Array} Array of topics with category and item information
+   */
+  const getAllTopics = () => {
+    const allTopics = [];
+    Object.entries(categories).forEach(([categoryKey, categoryData]) => {
+      Object.entries(categoryData.items).forEach(([itemName, itemData]) => {
+        itemData.topics.forEach((topic) => {
+          allTopics.push({
+            ...topic,
+            category: categoryData.title,
+            item: itemName,
+          });
+        });
+      });
+    });
+    return allTopics;
+  };
+
   return (
     <div className="h-full flex flex-col bg-background/60 backdrop-blur-lg border-r border-divider">
-      {/* Search Section */}
-      <div className="flex-none p-3 border-b border-divider">
+      {/* Search Section with Toggle */}
+      <div className="flex-none p-3 border-b border-divider space-y-2">
         <Input
           type="text"
-          placeholder="Search algorithms..."
+          placeholder="Search by topic..."
           startContent={<Search className="text-default-400" />}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -217,37 +243,45 @@ const LeftSideBar = () => {
           size="sm"
           variant="bordered"
         />
+        <div className="flex items-center justify-center gap-2">
+          <Button
+            size="sm"
+            variant={searchMode === "category" ? "solid" : "flat"}
+            onClick={() => setSearchMode("category")}
+            startContent={<List size={16} />}
+          >
+            Categories
+          </Button>
+          <Button
+            size="sm"
+            variant={searchMode === "topic" ? "solid" : "flat"}
+            onClick={() => setSearchMode("topic")}
+            startContent={<Grid2X2 size={16} />}
+          >
+            Topics
+          </Button>
+        </div>
       </div>
 
-      {/* Categories List */}
+      {/* Content Section */}
       <div className="flex-1 overflow-y-auto p-4 space-y-2">
-        {Object.entries(categories).map(([categoryKey, categoryData]) => {
-          if (!filterItems(categoryData, searchQuery)) return null;
+        {searchMode === "category" ? (
+          // Category view
+          Object.entries(categories).map(([categoryKey, categoryData]) => {
+            if (!filterItems(categoryData, searchQuery)) return null;
+            return (
+              <div key={categoryKey}>
+                <CategoryHeader
+                  expanded={expandedCategories[categoryKey]}
+                  title={categoryData.title}
+                  onClick={() => toggleCategory(categoryKey)}
+                />
 
-          return (
-            <div key={categoryKey} className="select-none">
-              <CategoryHeader
-                expanded={expandedCategories[categoryKey]}
-                title={categoryData.title}
-                onClick={() => toggleCategory(categoryKey)}
-              />
-
-              {expandedCategories[categoryKey] && (
-                <div className="ml-4 space-y-1 mt-1">
-                  {Object.entries(categoryData.items).map(
-                    ([itemName, itemData]) => {
-                      if (
-                        searchQuery &&
-                        !itemData.topics.some((topic) =>
-                          topic.name
-                            .toLowerCase()
-                            .includes(searchQuery.toLowerCase())
-                        )
-                      )
-                        return null;
-
-                      return (
-                        <div key={itemName} className="space-y-1">
+                {expandedCategories[categoryKey] && (
+                  <div className="ml-2">
+                    {Object.entries(categoryData.items).map(
+                      ([itemName, itemData]) => (
+                        <div key={itemName}>
                           <ItemHeader
                             expanded={
                               expandedItems[`${categoryKey}-${itemName}`]
@@ -257,7 +291,7 @@ const LeftSideBar = () => {
                           />
 
                           {expandedItems[`${categoryKey}-${itemName}`] && (
-                            <div className="ml-5 space-y-0.5">
+                            <div className="ml-4">
                               {itemData.topics.map((topic) => (
                                 <TopicItem
                                   key={topic.name}
@@ -268,14 +302,36 @@ const LeftSideBar = () => {
                             </div>
                           )}
                         </div>
-                      );
-                    }
-                  )}
+                      )
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })
+        ) : (
+          // Topic view (remains the same)
+          <div className="space-y-1">
+            {getAllTopics()
+              .filter((topic) =>
+                topic.name.toLowerCase().includes(searchQuery.toLowerCase())
+              )
+              .map((topic) => (
+                <div
+                  key={`${topic.category}-${topic.item}-${topic.name}`}
+                  className="bg-content1 rounded-lg p-2"
+                >
+                  <TopicItem
+                    topic={topic}
+                    onClick={() => handleTopicClick(topic)}
+                  />
+                  <div className="text-xs text-default-400 ml-7">
+                    {topic.category} → {topic.item}
+                  </div>
                 </div>
-              )}
-            </div>
-          );
-        })}
+              ))}
+          </div>
+        )}
       </div>
     </div>
   );

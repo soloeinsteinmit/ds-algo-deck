@@ -1,30 +1,15 @@
 import { Terminal, XCircle, Maximize2, Minimize2, Trash } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
-/**
- * A component that displays a console output.
- *
- * @param {{ height?: string }} props - The component props.
- * @param {string} [props.height="200px"] - The height of the console output.
- *
- * @returns {React.ReactElement} The console component.
- *
- * @example
- * import { Console } from "@components/playground/Console";
- *
- * <Console height="300px" />
- */
 const Console = ({ height = "200px" }) => {
   const [logs, setLogs] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
   const consoleEndRef = useRef(null);
 
-  // Scroll to bottom when new logs are added
   useEffect(() => {
     consoleEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [logs]);
 
-  // Override console.log and console.error
   useEffect(() => {
     const originalLog = console.log;
     const originalError = console.error;
@@ -33,17 +18,6 @@ const Console = ({ height = "200px" }) => {
       return;
     }
 
-    /**
-     * A custom implementation of console.log that logs messages to the
-     * internal state of the component, in addition to printing them to the
-     * console. The logged messages are stored in an array with the following
-     * structure:
-     * [
-     *   { type: "log", content: [...args], timestamp: Date },
-     *   { type: "log", content: [...args], timestamp: Date },
-     *   ...
-     * ]
-     */
     console.log = (...args) => {
       setLogs((prev) => [
         ...prev,
@@ -52,17 +26,6 @@ const Console = ({ height = "200px" }) => {
       originalLog.apply(console, args);
     };
 
-    /**
-     * A custom implementation of console.error that logs messages to the
-     * internal state of the component, in addition to printing them to the
-     * console. The logged messages are stored in an array with the following
-     * structure:
-     * [
-     *   { type: "error", content: [...args], timestamp: Date },
-     *   { type: "error", content: [...args], timestamp: Date },
-     *   ...
-     * ]
-     */
     console.error = (...args) => {
       setLogs((prev) => [
         ...prev,
@@ -71,53 +34,55 @@ const Console = ({ height = "200px" }) => {
       originalError.apply(console, args);
     };
 
-    // Cleanup
     return () => {
       console.log = originalLog;
       console.error = originalError;
     };
   }, []);
 
-  /**
-   * Clears the console output.
-   *
-   * @function
-   * @returns {void}
-   */
   const clearConsole = () => {
     setLogs([]);
   };
 
-  /**
-   * Takes an array of log content and formats it into a single string
-   * for display in the console.
-   *
-   * @param {Array<*>} content - An array of log content, which may contain
-   *   any type of values.
-   * @returns {string} A string representation of the log content. If the
-   *   content contains objects, they will be stringified with 2 spaces of
-   *   indentation.
-   */
   const formatLogContent = (content) => {
     return content
       .map((item) => {
-        if (typeof item === "object") {
-          return JSON.stringify(item, null, 2);
+        try {
+          if (item === null) return "null";
+          if (item === undefined) return "undefined";
+          if (typeof item === "object") {
+            // Handle Error objects specially
+            if (item instanceof Error) {
+              return item.stack || item.message;
+            }
+            // Handle React component stack traces
+            if (item.componentStack) {
+              return `Component Stack: ${item.componentStack}`;
+            }
+            // For circular references and other complex objects
+            const cache = new Set();
+            return JSON.stringify(
+              item,
+              (key, value) => {
+                if (typeof value === "object" && value !== null) {
+                  if (cache.has(value)) {
+                    return "[Circular Reference]";
+                  }
+                  cache.add(value);
+                }
+                return value;
+              },
+              2
+            );
+          }
+          return String(item);
+        } catch (err) {
+          return `[Unable to stringify: ${err.message}]`;
         }
-        return String(item);
       })
       .join(" ");
   };
 
-  /**
-   * Formats a timestamp into a string for display in the console.
-   *
-   * The timestamp is formatted in 24-hour time format, with hours, minutes,
-   * and seconds. The resulting string is in the format "HH:mm:ss".
-   *
-   * @param {Date} timestamp - The timestamp to format.
-   * @returns {string} A string representation of the timestamp in 24-hour time format.
-   */
   const formatTimestamp = (timestamp) => {
     return timestamp.toLocaleTimeString([], { hour12: false });
   };
@@ -129,7 +94,6 @@ const Console = ({ height = "200px" }) => {
       }`}
       style={{ height: isExpanded ? "50vh" : height }}
     >
-      {/* Console Header */}
       <div className="flex items-center justify-between px-4 py-2 bg-white dark:bg-[#252526] border-b border-gray-200 dark:border-[#2d2d2d]">
         <div className="flex items-center gap-2">
           <Terminal size={18} className="dark:text-[#cccccc]" />
@@ -157,7 +121,6 @@ const Console = ({ height = "200px" }) => {
         </div>
       </div>
 
-      {/* Console Output */}
       <div className="overflow-auto h-[calc(100%-40px)] font-mono text-sm">
         {logs.length === 0 ? (
           <div className="p-4 text-gray-500 dark:text-[#858585]">

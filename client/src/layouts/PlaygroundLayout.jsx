@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import LeftSideBar from "../components/playground/LeftSideBar";
-import VisualizingPanel from "../components/playground/VisualizingPanel";
+
 import CodeEditor from "../components/playground/CodeEditor";
 import { Button } from "@nextui-org/react";
 import { FaCode } from "react-icons/fa6";
+import MemoizedVisualizingPanel from "../components/playground/VisualizingPanel.jsx";
 
 /**
  * A layout component for the Playground page, which consists of a left sidebar
@@ -31,8 +32,8 @@ const PlaygroundLayout = () => {
     <div className="relative flex h-[calc(100vh-64px)]  w-full overflow-hidden">
       {/* Left Sidebar */}
       <div
-        className={`transition-all duration-300 ease-in-out ${
-          isListOpen ? "w-64" : "w-0"
+        className={`transition-all duration-300 ease-in-out  ${
+          isListOpen ? "w-[350px]" : "w-0"
         }`}
       >
         <LeftSideBar />
@@ -57,7 +58,7 @@ const PlaygroundLayout = () => {
             isEditorOpen ? "w-2/3" : "w-full"
           }`}
         >
-          <VisualizingPanel />
+          <MemoizedVisualizingPanel />
         </div>
 
         {/* Code Editor */}

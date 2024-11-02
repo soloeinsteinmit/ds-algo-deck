@@ -4,7 +4,7 @@ export const categories = {
     items: {
       Arrays: {
         topics: [
-          { name: "Basic Operations", implemented: true },
+          { name: "Basic Array Operations", implemented: true },
           { name: "Dynamic Arrays", implemented: false },
           { name: "Multi-dimensional Arrays", implemented: false },
         ],
