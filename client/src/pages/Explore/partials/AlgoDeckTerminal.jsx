@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { categories } from "../../utils/algorithmsData";
+import { categories } from "../../../utils/algorithmsData";
 
 const AlgoDeckTerminal = () => {
   const [leftVisible, setLeftVisible] = useState(true);

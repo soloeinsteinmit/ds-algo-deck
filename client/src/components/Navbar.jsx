@@ -74,7 +74,12 @@ export default function NavbarComponent({
       <NavbarContent className="hidden sm:flex gap-7 " justify="center">
         {links.map((link, index) => (
           <NavbarItem key={index}>
-            <NavLink className={"active:text-warning"} to={link.href}>
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? "text-warning" : "hover:text-warning"
+              }
+              to={link.href}
+            >
               {link.label}
             </NavLink>
           </NavbarItem>

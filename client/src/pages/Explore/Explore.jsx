@@ -1,24 +1,19 @@
 import React from "react";
-
-import { HeroSection } from "../../components/public_page/HeroSection";
-import {
-  CustomButton,
-  CustomButton1,
-} from "../../components/public_page/CustomButtons";
-import FeaturesCard from "../../components/public_page/FeaturesCard";
-
 import {
   PiCodeDuotone,
   PiGraphDuotone,
   PiDatabaseDuotone,
   PiBooksDuotone,
   PiChartLineUpDuotone,
-  PiUsersFourDuotone,
   PiBrainDuotone,
 } from "react-icons/pi";
-import AlgorithmCard from "../../components/public_page/AlgorithmCard";
-import DataStructureCard from "../../components/public_page/DataStructureCard";
-import AlgoDeckTerminal from "../../components/public_page/AlgoDeckTerminal";
+
+import AlgorithmCard from "./partials/AlgorithmCard";
+import DataStructureCard from "./partials/DataStructureCard";
+import AlgoDeckTerminal from "./partials/AlgoDeckTerminal";
+import FeaturesCard from "./partials/FeaturesCard";
+import { HeroSection } from "./partials/HeroSection";
+import { CustomButton, CustomButton1 } from "./partials/CustomButtons";
 
 function Explore() {
   return (

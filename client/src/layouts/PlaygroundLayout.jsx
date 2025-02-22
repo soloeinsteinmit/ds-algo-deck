@@ -1,45 +1,53 @@
+/**
+ * @fileoverview Hark! Behold the grand stage upon which our algorithms shall dance!
+ * This sacred layout doth provide the perfect environment for visualization and learning.
+ */
+
 import React, { useState } from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
-import LeftSideBar from "../components/playground/LeftSideBar";
-
-import CodeEditor from "../components/playground/CodeEditor";
 import { Button } from "@nextui-org/react";
 import { FaCode } from "react-icons/fa6";
-import MemoizedVisualizingPanel from "../components/playground/VisualizingPanel.jsx";
+
+// Import our noble components
+import LeftSideBar from "../components/playground/LeftSideBar";
+import CodeEditor from "../components/playground/CodeEditor";
+import MemoizedVisualizingPanel from "../components/playground/VisualizingPanel";
 
 /**
- * A layout component for the Playground page, which consists of a left sidebar
- * with a toggle button, a main content area with a visualizing panel and a code
- * editor, and a toggle button for the code editor.
- *
- * The left sidebar can be toggled open or closed by clicking the toggle button.
- * The visualizing panel and the code editor are displayed in a horizontal layout,
- * with the visualizing panel taking up 2/3 of the width when the code editor is
- * open, and the full width when the code editor is closed. The code editor can be
- * toggled open or closed by clicking the toggle button.
- *
- * The code editor is displayed on the right side of the main content area, and
- * can be toggled open or closed by clicking the toggle button.
- *
- * The component uses the `useState` hook to keep track of the state of the left
- * sidebar and the code editor.
+ * @typedef {Object} PlaygroundLayoutProps
+ * @property {boolean} isEditorOpen - Whether the sacred code editor is visible
+ * @property {boolean} isListOpen - Whether the noble sidebar doth show
+ * @property {function} setIsEditorOpen - A function to toggle the editor's presence
+ * @property {function} setIsListOpen - A function to toggle the sidebar's visibility
  */
-export const PlaygroundLayout = () => {
+
+/**
+ * @component PlaygroundLayout
+ * @description Lo! This grand theater presents three noble acts:
+ * 1. A sidebar most wise, containing our algorithmic treasures
+ * 2. A visualizing panel, where algorithms come to life
+ * 3. A code editor most sacred, where wisdom is writ
+ * 
+ * Each may be shown or hidden at the user's command, like actors
+ * entering and exiting our grand stage.
+ */
+const PlaygroundLayout = () => {
+  // Our state managers, like puppet strings for our performance
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [isListOpen, setIsListOpen] = useState(true);
 
   return (
-    <div className="relative flex h-[calc(100vh-64px)]  w-full overflow-hidden">
-      {/* Left Sidebar */}
+    <div className="relative flex h-screen w-full overflow-hidden bg-background">
+      {/* The Left Sidebar, a scroll of knowledge */}
       <div
-        className={`transition-all duration-300 ease-in-out  ${
+        className={`transition-all duration-300 ease-in-out ${
           isListOpen ? "w-[350px]" : "w-0"
         }`}
       >
         <LeftSideBar />
       </div>
 
-      {/* Left Sidebar Toggle */}
+      {/* The Sidebar Toggle, like a curtain's rope */}
       <Button
         onClick={() => setIsListOpen(!isListOpen)}
         className="absolute left-4 top-14 z-50"
@@ -50,9 +58,9 @@ export const PlaygroundLayout = () => {
         {isListOpen ? <ChevronLeft /> : <ChevronRight />}
       </Button>
 
-      {/* Main Content Area */}
+      {/* The Main Stage */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Visualizing Panel */}
+        {/* The Visualizing Panel, where magic happens */}
         <div
           className={`transition-all duration-300 ease-in-out ${
             isEditorOpen ? "w-2/3" : "w-full"
@@ -61,7 +69,7 @@ export const PlaygroundLayout = () => {
           <MemoizedVisualizingPanel />
         </div>
 
-        {/* Code Editor */}
+        {/* The Code Editor, where wisdom is writ */}
         <div
           className={`transition-all duration-300 ease-in-out ${
             isEditorOpen ? "w-2/6" : "w-0"
@@ -71,7 +79,7 @@ export const PlaygroundLayout = () => {
         </div>
       </div>
 
-      {/* Editor Toggle Button */}
+      {/* The Editor Toggle, like a magician's wand */}
       <Button
         onClick={() => setIsEditorOpen(!isEditorOpen)}
         className={`absolute ${
@@ -86,3 +94,5 @@ export const PlaygroundLayout = () => {
     </div>
   );
 };
+
+export default PlaygroundLayout;
