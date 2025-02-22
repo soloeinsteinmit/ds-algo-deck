@@ -161,7 +161,7 @@ function LinearSearchControls() {
         <Input
           type="number"
           label="Search Target"
-          value={searchTarget === NaN ? 0 : searchTarget}
+          value={searchTarget}
           onChange={handleTargetChange}
           className="w-48"
           size="md"
