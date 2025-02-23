@@ -9,9 +9,11 @@ let isInserting = false;
 let isTransitioning = false;
 let isDeleting = false;
 let isUpdating = false;
+let isError = false;
 let animationStage = null;
 let isOperationInProgress = false;
 let insertLastIndex = null;
+let alertVisible = false;
 
 const initialState = {
   array: [],
@@ -23,10 +25,12 @@ const initialState = {
   isInserting,
   isDeleting,
   isUpdating,
+  isError,
   animationStage,
   isTransitioning,
   isOperationInProgress,
   insertLastIndex,
+  alertVisible,
 };
 
 const arrayVisualizerSlice = createSlice({
@@ -102,6 +106,13 @@ const arrayVisualizerSlice = createSlice({
       state.isUpdating = action.payload;
     },
     /**
+     * Sets whether the array visualizer is currently in an error state.
+     * @param {boolean} action.payload Whether the array visualizer is in an error state.
+     */
+    setIsError: (state, action) => {
+      state.isError = action.payload;
+    },
+    /**
      * Sets the current animation stage in the array visualizer.
      * @param {string} action.payload The animation stage to set.
      */
@@ -130,6 +141,13 @@ const arrayVisualizerSlice = createSlice({
     setInsertLastIndex: (state, action) => {
       state.insertLastIndex = action.payload;
     },
+    /**
+     * Sets whether the array visualizer alert is visible.
+     * @param {boolean} action.payload Whether the array visualizer alert is visible.
+     */
+    setAlertVisible: (state, action) => {
+      state.alertVisible = action.payload;
+    },
   },
 });
 
@@ -140,14 +158,15 @@ export const {
   setMessage,
   setElementPositions,
   setAnimatingIndex,
-
   setIsInserting,
   setIsDeleting,
   setIsUpdating,
+  setIsError,
   setAnimationStage,
   setIsTransitioning,
   setIsOperationInProgress,
   setInsertLastIndex,
+  setAlertVisible,
 } = arrayVisualizerSlice.actions;
 
 export default arrayVisualizerSlice.reducer;

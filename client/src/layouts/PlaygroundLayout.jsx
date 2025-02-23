@@ -11,7 +11,7 @@ import { FaCode } from "react-icons/fa6";
 // Import our noble components
 import LeftSideBar from "../components/playground/LeftSideBar";
 import CodeEditor from "../components/playground/CodeEditor";
-import MemoizedVisualizingPanel from "../components/playground/VisualizingPanel";
+import MemoizedVisualizingPanel from "../pages/Playground/VisualizingPanel";
 
 /**
  * @typedef {Object} PlaygroundLayoutProps
@@ -27,7 +27,7 @@ import MemoizedVisualizingPanel from "../components/playground/VisualizingPanel"
  * 1. A sidebar most wise, containing our algorithmic treasures
  * 2. A visualizing panel, where algorithms come to life
  * 3. A code editor most sacred, where wisdom is writ
- * 
+ *
  * Each may be shown or hidden at the user's command, like actors
  * entering and exiting our grand stage.
  */

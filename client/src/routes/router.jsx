@@ -27,7 +27,7 @@ import PracticeMode from "../pages/PracticeMode/PracticeMode";
 // Playground Components
 import LeftSideBar from "../components/playground/LeftSideBar";
 import CodeEditor from "../components/playground/CodeEditor";
-import VisualizingPanel from "../components/playground/VisualizingPanel";
+import VisualizingPanel from "../pages/Playground/VisualizingPanel";
 
 /**
  * @typedef {Object} RouteConfig

@@ -13,7 +13,7 @@ import {
 } from "@nextui-org/react";
 import { memo, useEffect, useState } from "react";
 import { PiInfo } from "react-icons/pi";
-import { TopicsShortNotes } from "./TopicsShortNotes";
+import { TopicsShortNotes } from "../../components/playground/TopicsShortNotes";
 
 function VisualizingPanel() {
   const { currentView } = useSelector((state) => state.visualizer);
@@ -22,7 +22,10 @@ function VisualizingPanel() {
   });
 
   return (
-    <Card className="w-full h-full flex flex-col bg-background/60 backdrop-blur-lg">
+    <Card
+      className="w-full h-full flex flex-col bg-background/60 backdrop-blur-lg"
+      radius="none"
+    >
       {/* Header */}
       <CardHeader className="flex-none px-6 py-3 border-b border-divider bg-content2/50">
         <div className="w-full flex items-center justify-between">
@@ -51,7 +54,7 @@ function VisualizingPanel() {
 
       {/* Controls Area */}
       <CardFooter className="flex-none border-t border-divider bg-content1/50">
-        <div className="w-full h-32 max-h-36 overflow-y-auto p-4">
+        <div className="w-full h-fit max-h-64 overflow-y-auto p-4">
           {controls}
         </div>
       </CardFooter>

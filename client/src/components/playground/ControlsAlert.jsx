@@ -6,19 +6,21 @@ function ControlsAlert({ message, isError, isVisible, onHide }) {
     if (isVisible) {
       const timer = setTimeout(() => {
         onHide();
-      }, 5000); // Hide after 5 seconds
+      }, 10000); // Hide after 10 seconds
       return () => clearTimeout(timer);
     }
   }, [isVisible, onHide]);
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {isVisible && (
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className={`text-center ${isError ? "text-danger" : "text-success"}`}
+          className={`text-center ${
+            isError ? "text-danger" : "text-success"
+          } whitespace-pre-line mx-auto text-center `}
         >
           {message}
         </motion.p>
